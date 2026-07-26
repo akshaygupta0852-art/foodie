@@ -8,10 +8,11 @@ import Cart from './pages/Cart'
 import Profile from './pages/profile'
 import NotFound from './pages/NotFound'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 const App = () => {
   return (
-    <div>
+    <div className='m-0 p-0'>
       <Navbar />
       <Routes>
         <Route path='/' element={<Home/>} />
@@ -21,6 +22,7 @@ const App = () => {
         <Route path='/userprofile' element={<Profile/>} />
         <Route path='*' element={<NotFound/>} />
       </Routes>
+      <Footer/>
     </div>
   )
 }
