@@ -53,7 +53,7 @@
   =========================== */
 
   --gradient-primary: linear-gradient(
-    135deg,
+    75deg,
     #ff6b35,
     #ff9f43
   );
@@ -150,4 +150,27 @@
   --z-sticky: 500;
   --z-modal: 1000;
   --z-toast: 1100;
+}
+.loading{
+   animation: loader 1s ease-in-out infinite;
+}
+.form-container{
+    background: linear-gradient(180deg,#FFFFFF 0%,#FFF8F2 100%);
+    border:1px solid #F3E6DA;
+    border-radius:32px;
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.08),
+        0 5px 15px rgba(255,107,53,.08);
+}
+.focusBtn{
+   color: white;
+   background: var(--gradient-primary);
+}
+@keyframes loader{
+   from{
+      transform: rotate(0deg);
+   }
+   to{
+      transform: rotate(360deg);
+   }
 }
