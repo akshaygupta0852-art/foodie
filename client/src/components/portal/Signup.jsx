@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { useState } from "react";
 import {
     FiUser,
     FiMail,
@@ -6,8 +8,55 @@ import {
 } from "react-icons/fi";
 
 const Signup = () => {
+
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [cnfrmPass, setCnfrmPass] = useState('');
+    const checkBox = useRef(null);
+
+    async function signUpAuth(e) {
+        e.preventDefault();
+        if (!fullName) {
+            return console.error("Full name is required");
+        }
+
+        if (!email) {
+            return console.error("Email is required");
+        }
+
+        if (password.length < 8) {
+            return console.error("Password must be at least 8 characters");
+        }
+        if (password !== cnfrmPass) {
+            return console.error('password mismatch')
+        }
+        if (!checkBox.current.checked) {
+            return console.error("Please accept the terms and conditions");
+        }
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/user/register`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ fullName, email, password })
+        });
+        const result = await response.json();
+        if (response.ok) {
+            console.log(result)
+            localStorage.setItem('token', result.token);
+        }
+        else {
+            console.error('error', result.message);
+        }
+    }
+
     return (
-        <form className="w-full px-(--space-lg) mt-(--space-lg) space-y-(--space-md) max-lg:space-y-(--space-sm) max-lg:mt-(--space-sm)">
+        <form
+            onSubmit={(e) => {
+                signUpAuth(e);
+            }}
+            className="w-full px-(--space-lg) mt-(--space-lg) space-y-(--space-md) max-lg:space-y-(--space-sm) max-lg:mt-(--space-sm)">
 
             {/* Name */}
             <div>
@@ -21,6 +70,10 @@ const Signup = () => {
                     <input
                         type="text"
                         required
+                        value={fullName}
+                        onChange={(e) => {
+                            setFullName(e.target.value);
+                        }}
                         placeholder="Enter your full name"
                         className="w-full bg-transparent px-(--space-md) py-(--space-lg) outline-none max-lg:py-(--space-sm)"
                     />
@@ -39,6 +92,10 @@ const Signup = () => {
                     <input
                         type="email"
                         required
+                        value={email}
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+                        }}
                         placeholder="Enter your email"
                         className="w-full bg-transparent px-(--space-md) py-(--space-lg) outline-none max-lg:py-(--space-sm)"
                     />
@@ -57,6 +114,10 @@ const Signup = () => {
                     <input
                         type="password"
                         required
+                        value={password}
+                        onChange={(e) => {
+                            setPassword(e.target.value)
+                        }}
                         placeholder="Create a password"
                         className="w-full bg-transparent px-(--space-md) py-(--space-lg) outline-none max-lg:py-(--space-sm)"
                     />
@@ -76,6 +137,10 @@ const Signup = () => {
                         type="password"
                         placeholder="Confirm your password"
                         required
+                        value={cnfrmPass}
+                        onChange={(e) => {
+                            setCnfrmPass(e.target.value)
+                        }}
                         className="w-full bg-transparent px-(--space-md) py-(--space-lg) outline-none max-lg:py-(--space-sm)"
                     />
                 </div>
@@ -85,6 +150,7 @@ const Signup = () => {
             <label className="flex items-start gap-3">
                 <input
                     type="checkbox"
+                    ref={checkBox}
                     className="mt-1 accent-[#FF6B35]"
                 />
 
@@ -101,6 +167,7 @@ const Signup = () => {
 
             {/* Button */}
             <button
+                type="submit"
                 className="flex w-full items-center justify-center gap-3 rounded-xl bg-(--primary) py-4 text-lg font-semibold text-white transition cursor-pointer hover:bg-(--primary-dark) max-lg:py-(--space-sm)"
             >
                 Create Account

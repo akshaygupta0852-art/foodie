@@ -1,6 +1,6 @@
 import { User, UserPlus } from 'lucide-react'
 import { lazy, Suspense, useRef, useState } from 'react'
-import Loader from '../components/Loader';
+import Loader from '../components/common/Loader';
 const Login = lazy(() => import('../components/portal/Login.jsx'));
 const Signup = lazy(() => import('../components/portal/Signup.jsx'));
 

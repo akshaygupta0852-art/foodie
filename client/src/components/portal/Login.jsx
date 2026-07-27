@@ -1,10 +1,40 @@
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FiArrowRight } from "react-icons/fi";
+import { useState } from "react";
 
 const Login = () => {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    async function loginAuth(e){
+        e.preventDefault();
+        console.log(e.target)
+        if(!email){
+            return console.log('email is required');
+        }
+        if(!password){
+            return console.log('Password is required');
+        }
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/user/login`,{
+            method : 'POST',
+            headers :{
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify({email, password})
+        });
+        const result = await response.json();
+        if(response.ok){
+            localStorage.setItem('token', result.token);
+            console.log(result);
+        }else{
+            console.log(result.message)
+        }
+    }
     return (
-        <form className="w-full px-(--space-xl) mt-(--space-lg) space-y-(--space-md)">
+        <form onSubmit={(e)=>{
+            loginAuth(e)
+        }} className="w-full px-(--space-xl) mt-(--space-lg) space-y-(--space-md)">
 
             <div>
                 <label className="mb-2 block font-medium">
@@ -17,6 +47,10 @@ const Login = () => {
                     <input
                         type="email"
                         placeholder="Enter your email"
+                        value={email}
+                        onChange={(e)=>{
+                            setEmail(e.target.value);
+                        }}
                         required
                         className="w-full bg-transparent px-(--space-md) py-(--space-md) outline-none max-lg:py-(--space-sm)"
                     />
@@ -42,6 +76,10 @@ const Login = () => {
 
                     <input
                         type="password"
+                        value={password}
+                        onChange={(e)=>{
+                            setPassword(e.target.value)
+                        }}
                         required
                         placeholder="Enter your password"
                         className="w-full bg-transparent px-(--space-md) py-(--space-md) outline-none max-lg:py-(--space-sm)"

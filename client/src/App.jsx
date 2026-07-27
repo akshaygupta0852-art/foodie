@@ -6,9 +6,9 @@ const Portal = lazy(() => import("./pages/Portal"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Profile = lazy(() => import("./pages/Profile"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Loader from './components/Loader';
+import Navbar from './components/common/Navbar';
+import Footer from './components/common/Footer';
+import Loader from './components/common/Loader';
 
 const App = () => {
   return (

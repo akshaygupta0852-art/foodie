@@ -1,5 +1,4 @@
 import { ChevronRight, Home, Tag, UtensilsCrossed } from 'lucide-react'
-import React from 'react'
 import { FaBurger } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
 
