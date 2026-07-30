@@ -1,15 +1,18 @@
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FiArrowRight } from "react-icons/fi";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Eye, EyeClosed } from "lucide-react";
 
 const Login = () => {
-
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPass, setShowPass] = useState(false)
+    const inputPass = useRef(null);
     async function loginAuth(e){
         e.preventDefault();
-        console.log(e.target)
         if(!email){
             return console.log('email is required');
         }
@@ -19,14 +22,14 @@ const Login = () => {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/user/login`,{
             method : 'POST',
             headers :{
-                "Content-Type" : "application/json"
+                "Content-Type" : "application/json",
             },
             body : JSON.stringify({email, password})
         });
         const result = await response.json();
         if(response.ok){
             localStorage.setItem('token', result.token);
-            console.log(result);
+            navigate('/');
         }else{
             console.log(result.message)
         }
@@ -75,15 +78,25 @@ const Login = () => {
                     <RiLockPasswordLine className="text-xl text-gray-400" />
 
                     <input
-                        type="password"
+                        type={showPass ? 'text' : 'password'}
                         value={password}
                         onChange={(e)=>{
                             setPassword(e.target.value)
                         }}
+                        ref={inputPass}
                         required
                         placeholder="Enter your password"
                         className="w-full bg-transparent px-(--space-md) py-(--space-md) outline-none max-lg:py-(--space-sm)"
                     />
+                    <button type="button" onClick={()=>{
+                        setShowPass(prev => !prev);
+                    }}>
+                        {showPass ? <EyeClosed onClick={()=>{
+                            inputPass.current.type = 'password'
+                        }} /> : <Eye onClick={()=>{
+                            inputPass.current.type = 'text'
+                        }} />}
+                    </button>
                 </div>
             </div>
 

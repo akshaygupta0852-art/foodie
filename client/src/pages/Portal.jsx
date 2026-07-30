@@ -8,7 +8,7 @@ const Portal = () => {
   const [action, setAction] = useState('login');
   const [focus, setFocus] = useState(false);
   return (
-    <div className='h-screen w-screen bg-[url("./src/assets/images/loginBG.png")] bg-center bg-cover bg-no-repeat max-lg:bg-[url("./src/assets/images/mobloginBG.png")] max-lg:bg-cover
+    <div className='min-h-screen h-screen min-w-screen bg-[url("./src/assets/images/loginBG.png")] bg-cover bg-no-repeat max-lg:bg-[url("./src/assets/images/mobloginBG.png")] max-lg:bg-cover
     flex justify-center items-center'>
       <div className='h-3/4 w-1/3 form-container max-lg:w-9/10 max-lg:h-3/4 flex flex-col items-center'>
         <img className='h-30 max-lg:h-20' src='./src/assets/images/logo.png' />

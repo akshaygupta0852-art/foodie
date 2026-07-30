@@ -1,20 +1,26 @@
-import { useRef } from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import {
     FiUser,
     FiMail,
     FiLock,
     FiArrowRight,
 } from "react-icons/fi";
+import { Eye, EyeClosed } from "lucide-react";
+
 
 const Signup = () => {
+
+    const inputPass = useRef(null);
+    const cnfrmPassInput = useRef(null);
+    const [showPass, setShowPass] = useState(false)
 
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cnfrmPass, setCnfrmPass] = useState('');
     const checkBox = useRef(null);
-
+    const navigate = useNavigate();
     async function signUpAuth(e) {
         e.preventDefault();
         if (!fullName) {
@@ -43,8 +49,8 @@ const Signup = () => {
         });
         const result = await response.json();
         if (response.ok) {
-            console.log(result)
             localStorage.setItem('token', result.token);
+            navigate('/')
         }
         else {
             console.error('error', result.message);
@@ -112,8 +118,9 @@ const Signup = () => {
                     <FiLock className="text-xl text-gray-400" />
 
                     <input
-                        type="password"
+                        type={showPass ? 'text' : "password"}
                         required
+                        ref={inputPass}
                         value={password}
                         onChange={(e) => {
                             setPassword(e.target.value)
@@ -121,6 +128,17 @@ const Signup = () => {
                         placeholder="Create a password"
                         className="w-full bg-transparent px-(--space-md) py-(--space-lg) outline-none max-lg:py-(--space-sm)"
                     />
+                    <button type="button" onClick={()=>{
+                        setShowPass(prev => !prev);
+                    }}>
+                        {showPass ? <EyeClosed onClick={()=>{
+                            inputPass.current.type = 'password';
+                            cnfrmPassInput.current.type = 'password';
+                        }} /> : <Eye onClick={()=>{
+                            inputPass.current.type = 'text';
+                            cnfrmPassInput.current.type = 'text';
+                        }} />}
+                    </button>
                 </div>
             </div>
 
@@ -134,10 +152,11 @@ const Signup = () => {
                     <FiLock className="text-xl text-gray-400" />
 
                     <input
-                        type="password"
+                        type={showPass ? 'text' : 'password'}
                         placeholder="Confirm your password"
                         required
                         value={cnfrmPass}
+                        ref={cnfrmPassInput}
                         onChange={(e) => {
                             setCnfrmPass(e.target.value)
                         }}

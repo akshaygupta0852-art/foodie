@@ -6,26 +6,36 @@ const Portal = lazy(() => import("./pages/Portal"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Profile = lazy(() => import("./pages/Profile"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const Categories = lazy(()=> import('./pages/Categories'));
+const Guest = lazy(()=> import('./layouts/Guest'));
+const ProtectedRoute = lazy(()=> import('./routes/ProtectedRoute'));
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import Loader from './components/common/Loader';
+import Mainlayout from './layouts/Mainlayout';
+const Order = lazy(()=> import('./pages/Order'))
 
 const App = () => {
   return (
     <div className='m-0 p-0'>
-      {/* <Navbar />
       <Suspense fallback={<Loader />}>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/restaurants' element={<Restaurants />} />
-          <Route path='/loginpage' element={<Portal />} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='/userprofile' element={<Profile />} />
+          <Route element={<Mainlayout />}>
+            <Route path='/' element={<Home />} />
+            <Route path='/restaurants' element={<Restaurants />} />
+            <Route element={<ProtectedRoute />} >
+              <Route path='/cart' element={<Cart />} />
+              <Route path='/userprofile' element={<Profile />} />
+              <Route path='/orders/:id' element={<Order />} />
+            </Route>
+            <Route path='/categories' element={<Categories />} />
+          </Route>
+          <Route element={<Guest />}>
+            <Route path='/portal' element={<Portal />} />
+          </Route>
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Suspense>
-      <Footer /> */}
-      <Portal />
     </div>
   )
 }

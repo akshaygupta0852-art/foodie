@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import loginRoute from "./routes/Loginroute.js";
 import signupRoute from "./routes/signuproute.js";
 import cors from 'cors'
+import cartroute from "./routes/Cartroute.js";
 
 export const connectDB = async () => {
   try {
@@ -20,5 +21,6 @@ app.use(cors());
 
 app.use("/user", loginRoute);
 app.use("/user", signupRoute);
+app.use('/user', cartroute )
 
 export default app;

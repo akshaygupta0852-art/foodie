@@ -15,7 +15,8 @@ const Hero = () => {
                 </h1>
                 <p className='mt-(--space-lg) text-xl max-lg:mt-(--space-md) max-lg:text-sm'>Discover the best Restaurants and enjoy<br /> mouthwatering meals at your doorstep.</p>
                 <div className='flex gap-2 mt-(--space-lg)'>
-                    <input type='text' className='px-(--space-md) bg-gray-200 w-3/7 rounded-md py-(--space-sm) border-0 outline-0 max-lg:w-full' placeholder='Search for food or restaurant' /> <button
+                    <input type='text' className='px-(--space-md) bg-gray-200 w-3/7 rounded-md py-(--space-sm) border-0 outline-0 max-lg:w-full' placeholder='Search for food or restaurant' /> 
+                    <button
                         type='button' className='text-white text-xl font-semibold px-(--space-md) py-(--space-sm) border-0 outline-0 cursor-pointer bg-(--primary) rounded-md'>Search</button>
                 </div>
                 <div className='flex gap-10 mt-(--space-md) max-lg:gap-2'>
