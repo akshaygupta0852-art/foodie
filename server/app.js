@@ -4,7 +4,9 @@ import loginRoute from "./routes/Loginroute.js";
 import signupRoute from "./routes/signuproute.js";
 import cors from 'cors'
 import cartroute from "./routes/Cartroute.js";
-import router from "./routes/Restaurantroute.js";
+import restaurantsRoute from "./routes/Restaurantroute.js";
+import singleRest from "./routes/singleRest.js";
+import restrauFood from "./routes/RestrauFood.js";
 
 export const connectDB = async () => {
   try {
@@ -23,6 +25,8 @@ app.use(cors());
 app.use("/user", loginRoute);
 app.use("/user", signupRoute);
 app.use('/user', cartroute );
-app.use('/user', router)
+app.use('/user', restaurantsRoute);
+app.use('/user', singleRest);
+app.use('/user', restrauFood);
 
 export default app;

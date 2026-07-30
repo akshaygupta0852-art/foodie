@@ -7,7 +7,6 @@ const CategoryCarousel = ({ data }) => {
             data.flatMap((restaurant) => restaurant.cuisine)
         ),
     ];
-    console.log(cuisines)
     return (
         <div className='flex gap-3 overflow-auto'>
             <button
