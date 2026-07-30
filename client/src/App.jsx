@@ -13,6 +13,7 @@ import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import Loader from './components/common/Loader';
 import Mainlayout from './layouts/Mainlayout';
+import ViewRest from './components/restaurants/ViewRest';
 const Order = lazy(()=> import('./pages/Order'))
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
           <Route element={<Guest />}>
             <Route path='/portal' element={<Portal />} />
           </Route>
+          <Route path='/restaurants/:id' element={<ViewRest />}/>
           <Route path='*' element={<NotFound />} />
         </Routes>
       </Suspense>

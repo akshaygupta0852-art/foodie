@@ -12,6 +12,8 @@
   --primary-light: #ff8a5c;
   --primary-dark: #e85a2a;
 
+  --primary-opacity-low : #ff450138;
+
   /* Secondary */
   --secondary: #ffc857;
   --secondary-light: #ffd980;
@@ -20,7 +22,7 @@
   /* Accent */
   --accent: #2ecc71;
   --accent-light: #58d68d;
-  --accent-dark: #27ae60;
+  --accent-dark: #1c8a4a;
 
   /* Background */
   --bg-primary: #fffaf5;
@@ -165,6 +167,9 @@
 .focusBtn{
    color: white;
    background: var(--gradient-primary);
+}
+.activeNavbarBtn{
+   border-bottom: 4px solid var(--primary);
 }
 @keyframes loader{
    from{
