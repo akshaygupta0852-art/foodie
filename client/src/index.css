@@ -171,9 +171,14 @@
 .activeNavbarBtn{
    border-bottom: 4px solid var(--primary);
 }
+.navLiActive{
+   border-bottom: 4px solid var(--primary);
+   color: var(--primary);
+}
 @keyframes loader{
    from{
       transform: rotate(0deg);
+      color: rgb(216, 216, 47);
    }
    to{
       transform: rotate(360deg);

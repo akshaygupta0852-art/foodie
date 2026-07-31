@@ -35,7 +35,7 @@ const foods = [
     name: "Garlic Bread",
     description: "Freshly baked garlic bread with herbs and melted cheese.",
     price: 149,
-    image: "https://images.unsplash.com/photo-1619535860434-cf9b902a1c0a",
+    image: "https://images.unsplash.com/photo-1761344788266-5f6957aeea33?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdhcmxpYyUyMGJyZWFkfGVufDB8fDB8fHww",
     category: "Sides",
     restaurant: "6a6abffa676ce64eadd52fd5",
     isVeg: true,

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import CategoryCarousel from '../components/restaurants/CategoryCarousel';
 
 const Restaurants = () => {
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [restaurants, setRestaurants] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -16,14 +17,21 @@ const Restaurants = () => {
       }
     }
     getRestaurants();
-  }, [])
+  }, []);
+
+const filteredRest =
+  selectedCategory === "All"
+    ? restaurants
+    : restaurants.filter((restaurant) =>
+        restaurant?.cuisine.includes(selectedCategory)
+      );
 
   return (
     <div className='flex mt-(--space-md) flex-col px-(--space-sm) gap-4'>
       <SearchRest />
-      <CategoryCarousel data={restaurants} />
+      <CategoryCarousel data={restaurants} change={setSelectedCategory} />
       <div className='grid grid-cols-3 mt-4 space-x-5 space-y-4 max-lg:grid-cols-1'>
-        {restaurants.map((restaurant) => (
+        {filteredRest.map((restaurant) => (
           <div key={restaurant._id} onClick={() => {
             navigate(`/restaurants/${restaurant._id}`)
           }} className='cursor-pointer shadow-2xl h-60 rounded-2xl overflow-hidden max-lg:w-full'>

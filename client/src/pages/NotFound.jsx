@@ -1,4 +1,5 @@
 import { ChevronRight, Home, Tag, UtensilsCrossed } from 'lucide-react'
+import image from '../assets/images/notfound.png'
 import { FaBurger } from 'react-icons/fa6'
 import { Link } from 'react-router-dom'
 
@@ -11,7 +12,7 @@ const NotFound = () => {
         The page you're looking doesn't exist.
       </p>
       <button className='mt-(--space-sm) bg-(--primary) text-white px-(--space-lg) py-(--space-sm) rounded-full text-lg font-semibold'><Link to='/' className='flex items-center gap-2'><Home /> Go to Home</Link></button>
-      <img className='h-60 max-lg:h-50' src='./src/assets/images/notfound.png' />
+      <img className='h-60 max-lg:h-50' src={image} />
 
       <span className='font-bold text-xl max-md:hidden'>You can try these</span>
       <div className='flex gap-10 max-md:hidden'>
