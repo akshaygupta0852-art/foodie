@@ -2,8 +2,14 @@ import logo from '../../assets/images/logo.png'
 import { CircleUser, MapPin, Plus, ShoppingCart, User } from 'lucide-react'
 import { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
 
 const Navbar = () => {
+  const { cart } = useCart();
+  const itemCount = cart.reduce(
+    (total, item) => { return total + item?.quantity },
+    0
+  )
   const navClass = ({ isActive }) =>
     `px-2 box-border flex items-center justify-center h-full
    text-center transition-all ease-in duration-150
@@ -51,7 +57,18 @@ const Navbar = () => {
             <option value="Panna (M.P.)">Panna (M.P.)</option>
           </select>
         </div>
-        <Link to='/cart'><ShoppingCart height="30px" width="30px" size="30px" className='cursor-pointer max-lg:scale-60' /></Link>
+        <Link to="/cart">
+          <div className="relative inline-block">
+            <ShoppingCart
+              size={30}
+              className="cursor-pointer"
+            />
+
+            <span className="absolute -right-2 -top-2 z-50 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-xs font-bold text-white">
+              {itemCount}
+            </span>
+          </div>
+        </Link>
         <Link to='/userprofile'><User heigh="60px" width="30px" size="30px" className='cursor-pointer max-lg:scale-60' /></Link>
       </div>
     </div>

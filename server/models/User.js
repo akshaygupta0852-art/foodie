@@ -76,7 +76,7 @@ const userSchema = new mongoose.Schema(
       {
         foodId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Food",
+          ref: "foods",
           required: true,
         },
         quantity: {
@@ -87,6 +87,7 @@ const userSchema = new mongoose.Schema(
         },
         restaurant :{
           type : mongoose.Schema.Types.ObjectId,
+          ref : "Restaurants",
           required : true
         }
       },

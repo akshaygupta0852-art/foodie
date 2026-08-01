@@ -1,10 +1,10 @@
 import { Clock, IndianRupee, Star, Vegan } from 'lucide-react'
 import { addToCart } from '../../routes/CartRoute'
 
-const Foodcard = ({ data }) => {
+const Foodcard = ({ data, onCartUpdated }) => {
     return (
         <div className='shadow-2xs flex'>
-            <img src={data?.image} className='w-60 h-40 rounded-2xl max-lg:w-35 object-cover' />
+            <img src={data?.image} loading='lazy' className='w-60 h-40 rounded-2xl max-lg:w-35 object-cover' />
             <div className='flex flex-1 px-(--space-lg) flex-col gap-2 text-black max-lg:gap-2'>
                 <div className='flex gap-4 items-center max-lg:gap-2'>
                     <h3 className='text-xl font-semibold max-lg:text-sm'>{data?.name}</h3>
@@ -26,10 +26,11 @@ const Foodcard = ({ data }) => {
                         className='border border-(--primary)
                 cursor-pointer max-lg:text-sm max-lg:py-0.5 max-lg:px-1
                 w-fit self-end text-(--primary) px-(--space-sm) rounded-sm py-(--space-xs) font-semibold'
-                    onClick={()=>{
+                    onClick={async ()=>{
                         const userID = localStorage.getItem('userId');
                         console.log(userID, data._id, data.restaurant, 1);
-                        addToCart(userID, data._id, data.restaurant, 1);
+                        await addToCart(userID, data._id, data.restaurant, 1);
+                        await onCartUpdated();
                     }}
                     >+ Add</button> : <span>Out of stock</span>}
                 </div>
