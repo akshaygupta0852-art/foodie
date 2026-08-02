@@ -1,6 +1,6 @@
 function QuantityController({ quantity, increase, decrease }) {
     return (
-        <div className="flex w-fit items-center overflow-hidden rounded-lg border border-gray-300 bg-white">
+        <div className="flex w-fit items-center overflow-hidden rounded-lg border border-gray-300 bg-white max-lg:scale-75">
             <button
                 type="button"
                 onClick={decrease}

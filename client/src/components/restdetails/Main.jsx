@@ -4,17 +4,21 @@ import { clearCart, getCartItem, removeCartItem, updateCartQuantity } from '../.
 import QuantityController from '../../utils/QuantityController';
 import { Cross, IndianRupee, X } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 
 const Main = ({ data }) => {
+
+    const navigate = useNavigate();
     const [selectedFood, setSelectedFood] = useState('All');
+    const { cart, setCart, address } = useCart();
+    const categories = [];
+    
     const subtotal = cart.reduce(
         (total, item) => total + item.foodId.price * item.quantity,
         0
     );
     const deliveryFee = subtotal >= 500 ? 0 : 30;
-    const { cart, setCart } = useCart();
-    const categories = [];
 
     const getLatestCart = async () => {
         const data = await getCartItem();
@@ -121,7 +125,7 @@ const Main = ({ data }) => {
                     }) : <h1>No items in Cart</h1>}
 
                 </div>
-                <div className='flex flex-col'>
+                {cart?.length > 0 ? <div className='flex flex-col'>
                     <div className='flex justify-between text-lg'>
                         <span>Subtotal</span>
                         <span className='flex items-center'><IndianRupee size={15} />{cart?.length > 0 ? cart.reduce((acc, curr) => {
@@ -141,8 +145,12 @@ const Main = ({ data }) => {
                         <span>Total</span>
                         <span className='flex items-center text-(--primary) font-semibold'><IndianRupee size={18} /> {cart?.length > 0 ? cart.reduce((acc, curr) => { return acc + curr.foodId.price * curr.quantity }, 50) : '0'} </span>
                     </div>
-                    <button type='button' className='w-full bg-(--primary) text-lg text-white py-(--space-sm) rounded-sm font-medium mt-(--space-sm)'>View Cart & checkout</button>
-                </div>
+                    <button type='button'
+                    onClick={()=>{
+                        navigate('/cart')
+                    }}
+                    className='w-full cursor-pointer bg-(--primary) text-lg text-white py-(--space-sm) rounded-sm font-medium mt-(--space-sm) hover:bg-(--primary-dark)'>View Cart & checkout</button>
+                </div> : ''}
             </div>
         </div>
     )

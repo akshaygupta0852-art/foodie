@@ -7,6 +7,7 @@ import cartroute from "./routes/Cartroute.js";
 import restaurantsRoute from "./routes/Restaurantroute.js";
 import singleRest from "./routes/singleRest.js";
 import restrauFood from "./routes/RestrauFood.js";
+import addressRoute from "./routes/Address.js";
 
 export const connectDB = async () => {
   try {
@@ -24,9 +25,10 @@ app.use(cors());
 
 app.use("/user", loginRoute);
 app.use("/user", signupRoute);
-app.use('/cart', cartroute );
 app.use('/user', restaurantsRoute);
 app.use('/user', singleRest);
 app.use('/user', restrauFood);
+app.use('/cart', cartroute );
+app.use('/address', addressRoute);
 
 export default app;

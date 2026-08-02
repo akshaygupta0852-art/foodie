@@ -14,6 +14,8 @@ import Footer from './components/common/Footer';
 import Loader from './components/common/Loader';
 import Mainlayout from './layouts/Mainlayout';
 import ViewRest from './components/restaurants/ViewRest';
+import AddressPage from './pages/Address';
+import Checkout from './pages/Checkout';
 const Order = lazy(() => import('./pages/Order'))
 
 const App = () => {
@@ -26,17 +28,22 @@ const App = () => {
             <Route path='/' element={<Home />} />
             <Route path='/restaurants' element={<Restaurants />} />
             <Route element={<ProtectedRoute />} >
-              <Route path='/cart' element={<Cart changeCount={setItemCount} />} />
               <Route path='/userprofile' element={<Profile />} />
               <Route path='/orders/:id' element={<Order />} />
             </Route>
             <Route path='/categories' element={<Categories />} />
           </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path='/cart' element={<Cart changeCount={setItemCount} />} />
+
+          </Route>
           <Route element={<Guest />}>
             <Route path='/portal' element={<Portal />} />
           </Route>
+          <Route path='/user/address' element={<AddressPage />} />
           <Route path='/restaurants/:id' element={<ViewRest />} />
           <Route path='*' element={<NotFound />} />
+          <Route path='/cart/checkout' element={<Checkout />} />
         </Routes>
       </Suspense>
     </div>

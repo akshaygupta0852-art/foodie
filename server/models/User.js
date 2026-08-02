@@ -2,9 +2,22 @@ import mongoose from "mongoose";
 
 const addressSchema = new mongoose.Schema(
   {
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    mobile: {
+      type: String,
+      required: true,
+      trim: true,
+      match: /^[6-9]\d{9}$/
+    },
+
     label: {
       type: String,
-      enum: ["Home", "Work", "Other"],
+      enum: ["Home", "Work"],
       default: "Home",
     },
 
@@ -20,18 +33,7 @@ const addressSchema = new mongoose.Schema(
       trim: true,
     },
 
-    landmark: {
-      type: String,
-      trim: true,
-    },
-
     city: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    state: {
       type: String,
       required: true,
       trim: true,
@@ -48,7 +50,7 @@ const addressSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { _id: true }
+  { _id: true },
 );
 
 const userSchema = new mongoose.Schema(
@@ -85,11 +87,11 @@ const userSchema = new mongoose.Schema(
           min: 1,
           default: 1,
         },
-        restaurant :{
-          type : mongoose.Schema.Types.ObjectId,
-          ref : "Restaurants",
-          required : true
-        }
+        restaurant: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Restaurants",
+          required: true,
+        },
       },
     ],
 
@@ -104,7 +106,7 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const User = mongoose.model("User", userSchema);

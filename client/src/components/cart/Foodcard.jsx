@@ -31,45 +31,47 @@ const Foodcard = ({ food }) => {
     };
     return (
         <div className="flex gap-5 shadow-sm items-center w-full px-(--space-xs) py-(--space-sm)">
-            <img src={food.foodId.image} className="w-40 h-30 min-h-30 min-w-40 rounded-lg object-cover" />
-            <div className="flex justify-evenly gap-1 flex-1 flex-col py-(--space-sm)">
-                <div className="flex gap-3 items-center"><h2 className="text-lg font-semibold">{food.foodId.name}</h2>
-                    {food.foodId?.isVeg ? <span className="inline-flex h-4 w-4 max-lg:scale-85  items-center justify-center border border-green-600">
-                        <span className="h-2  max-lg:scale-85 w-2 rounded-full bg-green-600"></span>
-                    </span> : <span className="inline-flex h-4 w-4 max-lg:scale-85  items-center justify-center border border-red-600">
-                        <span className="h-2 max-lg:scale-85 w-2 rounded-full bg-red-600"></span>
-                    </span>}
-                </div>
-                <span className="font-medium text-sm">{food.restaurant.name}</span>
-                <p className="w-1/2 text-xs text-gray-500">{food.foodId.description}</p>
+            <img src={food.foodId.image} className="w-40 h-30 min-w-40 min-h-30 rounded-lg object-cover max-lg:w-25 max-lg:h-20 max-lg:min-w-25 max-lg:min-h-20" />
+            <div className="flex w-full max-lg:flex-col">
+                <div className="flex justify-evenly gap-1 flex-1 flex-col py-(--space-sm)">
+                    <div className="flex gap-3 items-center max-lg:gap-0.5">
+                        <h2 className="text-lg font-semibold max-lg:text-[14px]">{food.foodId.name}</h2>
+                        {food.foodId?.isVeg ? <span className="inline-flex h-4 w-4 max-lg:scale-85  items-center justify-center border border-green-600">
+                            <span className="h-2  max-lg:scale-85 w-2 rounded-full bg-green-600"></span>
+                        </span> : <span className="inline-flex h-4 w-4 max-lg:scale-85  items-center justify-center border border-red-600">
+                            <span className="h-2 max-lg:scale-85 w-2 rounded-full bg-red-600"></span>
+                        </span>}
+                    </div>
+                    <span className="font-medium text-sm max-lg:text-[11px]">{food.restaurant.name}</span>
+                    <p className="w-1/2 text-xs text-gray-500 max-lg:w-full max-lg:text-[10px]">{food.foodId.description}</p>
 
-                <div className="flex gap-3 text-xs text-gray-400">
-                    <span className="flex gap-1 items-center"><Star size={12} fill="orange" stroke="orange" /> {food.foodId.rating}</span>
-                    <span> | </span>
-                    <span className="flex gap-1 items-center"><Clock size={12} />{food.foodId.preparationTime} min</span>
+                    <div className="flex gap-3 text-xs text-gray-400">
+                        <span className="flex gap-1 items-center"><Star size={12} fill="orange" stroke="orange" /> {food.foodId.rating}</span>
+                        <span> | </span>
+                        <span className="flex gap-1 items-center"><Clock size={12} />{food.foodId.preparationTime} min</span>
+                    </div>
                 </div>
-            </div>
-            <div className="w-1/3 flex items-center text-xl justify-end gap-6">
-                <h1 className="flex items-center font-bold"><IndianRupee size={19} />{food.foodId.price * food.quantity}</h1>
-                <QuantityController quantity={food.quantity}
-                    increase={() =>
-                        updateQuantity(
-                            food.foodId._id,
-                            food.quantity + 1
-                        )
-                    }
-                    decrease={() =>
-                        updateQuantity(
-                            food.foodId._id,
-                            Math.max(1, food.quantity - 1)
-                        )
-                    }
-                />
-                <FiTrash2 className="cursor-pointer" onClick={() => {
-                    console.log('clikce');
+                <div className="w-fit flex items-center text-xl justify-end gap-6 max-lg:w-full max-lg:justify-center max-lg:gap-3">
+                    <h1 className="flex items-center font-bold max-lg:scale-70"><IndianRupee size={19} />{food.foodId.price * food.quantity}</h1>
+                    <QuantityController quantity={food.quantity}
+                        increase={() =>
+                            updateQuantity(
+                                food.foodId._id,
+                                food.quantity + 1
+                            )
+                        }
+                        decrease={() =>
+                            updateQuantity(
+                                food.foodId._id,
+                                Math.max(1, food.quantity - 1)
+                            )
+                        }
+                    />
+                    <FiTrash2 className="cursor-pointer hover:text-red-500 max-lg:scale-80" onClick={() => {
 
-                    handleRemoveItem(food.foodId._id)
-                }} />
+                        handleRemoveItem(food.foodId._id)
+                    }} />
+                </div>
             </div>
         </div>
     )

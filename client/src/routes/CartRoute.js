@@ -33,6 +33,7 @@ export async function getCartItem() {
     console.error(response?.message);
   }
 }
+
 export async function clearCart(){
   const response = await fetch(`${import.meta.env.VITE_API_URL}/cart/clear`, {
     headers : {
