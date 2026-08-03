@@ -51,14 +51,8 @@ const Navbar = () => {
         </li>
       </ul>
       <div className='flex gap-15 items-center top-3 right-0 max-lg:absolute max-lg:gap-3'>
-        <div className='flex'>
-          <MapPin color='var(--primary)' className='max-lg:scale-60' size="30px" />
-          <select defaultValue="Panna (M.P.)" className='font-bold outline-0 border-0 max-lg:text-sm'>
-            <option value="Panna (M.P.)">Panna (M.P.)</option>
-          </select>
-        </div>
         <Link to="/cart">
-          <div className="relative inline-block">
+          <div className="relative inline-block scale-70">
             <ShoppingCart
               size={30}
               className="cursor-pointer"
@@ -69,7 +63,7 @@ const Navbar = () => {
             </span>
           </div>
         </Link>
-        <Link to='/userprofile'><User heigh="60px" width="30px" size="30px" className='cursor-pointer max-lg:scale-60' /></Link>
+        <Link to='/userprofile'><User size={30} className='cursor-pointer max-lg:scale-70' /></Link>
       </div>
     </div>
   )

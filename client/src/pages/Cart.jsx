@@ -44,7 +44,8 @@ const Cart = ({ changeCount }) => {
             }) : ''}
           </div>
         </div>
-        <CartSummary />
+        {cart?.length > 0 ?
+        <CartSummary /> : ''}
       </div>
     </div>
   )

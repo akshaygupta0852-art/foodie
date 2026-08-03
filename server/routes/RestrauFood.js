@@ -12,7 +12,8 @@ router.get('/restaurants/:id/foods', async (req, res)=>{
     }catch(err){
         console.error(err);
         return res.status(500).json({
-            message : "Internal Server Error"
+            message : "Internal Server Error",
+            type: "Failed",
         })
     }
 });

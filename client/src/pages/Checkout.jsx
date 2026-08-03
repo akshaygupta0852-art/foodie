@@ -16,24 +16,55 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import AddressCard from '../components/Address/AddressCard'
 import Foodcard from "../components/cheeckout/Foodcard";
+import { placeOrder } from "../routes/OrdersRoutes";
+import { clearCart } from "../routes/CartRoute";
 
 const Checkout = () => {
     const [selectedAddress, setSelectedAddress] = useState("home");
     const [paymentMethod, setPaymentMethod] = useState("upi");
-    const { cart, selected, setSelected } = useCart();
-    const { addresses } = useCart();
+    const { cart, selected, setSelected, addresses } = useCart();
 
-    const subtotal = cart.reduce(
+    const subtotal = cart?.reduce(
         (total, item) => total + item?.foodId?.price * item?.quantity,
         0
     );
 
-    const totalItems = cart.reduce((total, item) => total + item?.quantity, 0);
+    const totalItems = cart?.reduce((total, item) => total + item?.quantity, 0);
     const deliveryFee = subtotal >= 500 ? 0 : 30;
     const packagingFee = 20;
 
     const total = subtotal + deliveryFee + packagingFee;
-    const navigation = useNavigate()
+    const navigation = useNavigate();
+
+    const handleOrder = async () => {
+        const ordereItemArray = [];
+        cart.forEach((food) => {
+            const item = {
+                foodId: food.foodId._id,
+                name: food.foodId.name,
+                image: food.foodId.image,
+                quantity: food.quantity,
+                price: food.foodId.price
+            }
+            ordereItemArray.push(item);
+        });
+        const restaurant = {
+            restaurantId: cart[0].restaurant._id,
+            name: cart[0].restaurant.name
+        }
+        const address = addresses.find((add) => add._id === selected);
+        const data = await placeOrder(ordereItemArray, address, restaurant);
+        if (data?.type === 'Done') {
+            navigation(`/order/placed/${data?.order?._id}`)
+            await clearCart();
+        } else {
+            navigation('/order/failed', {
+                state: {
+                    message: "Unable to place your order. Please try again."
+                }
+            })
+        }
+    }
     return (
         <div className="min-h-screen bg-[#FFFCF8] text-gray-900">
 
@@ -83,7 +114,7 @@ const Checkout = () => {
                                 return <AddressCard key={address._id} address={address} selected={selected} setSelected={setSelected} />
                             })}
 
-                            <button onClick={()=>{
+                            <button onClick={() => {
                                 navigation('/user/address')
                             }} className="mt-4 cursor-pointer flex w-full items-center gap-3 rounded-xl border border-dashed border-[#FF6B35] px-5 py-4 text-left font-medium text-[#FF6B35] transition hover:bg-orange-50">
                                 <FiPlus size={20} />
@@ -252,7 +283,7 @@ const Checkout = () => {
 
                             {/* Desktop Button */}
 
-                            <button className="mt-5 hidden w-full items-center justify-center gap-3 rounded-xl bg-[#FF6B35] py-2 text-lg font-semibold text-white transition hover:bg-[#f15d28] cursor-pointer lg:flex">
+                            <button onClick={handleOrder} className="mt-5 hidden w-full items-center justify-center gap-3 rounded-xl bg-[#FF6B35] py-2 text-lg font-semibold text-white transition hover:bg-[#f15d28] cursor-pointer lg:flex">
                                 Place Order
                                 <FiArrowRight size={20} />
                             </button>

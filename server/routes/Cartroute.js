@@ -16,6 +16,7 @@ router.post("/item/add", auth, async (req, res) => {
     if (!user) {
       return res.status(404).json({
         message: "User not found",
+        type : 'Failed'
       });
     }
 
@@ -23,6 +24,7 @@ router.post("/item/add", auth, async (req, res) => {
     if (!foundFood) {
       return res.status(404).json({
         message: "This food is not available or deleted.",
+        type : 'Failed'
       });
     }
 
@@ -30,6 +32,7 @@ router.post("/item/add", auth, async (req, res) => {
     if (!restrau) {
       return res.status(404).json({
         message: "This restaurant is closed or deleted!",
+        type : 'Failed'
       });
     }
 
@@ -67,11 +70,13 @@ router.post("/item/add", auth, async (req, res) => {
     await user.save();
     return res.status(200).json({
       message: "Food added to cart",
+      type : 'Done'
     });
   } catch (err) {
     return res.status(500).json({
       message: "Something went wrong",
       error: err.message,
+      type : 'Failed'
     });
   }
 });

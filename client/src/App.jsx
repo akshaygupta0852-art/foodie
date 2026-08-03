@@ -14,9 +14,12 @@ import Footer from './components/common/Footer';
 import Loader from './components/common/Loader';
 import Mainlayout from './layouts/Mainlayout';
 import ViewRest from './components/restaurants/ViewRest';
-import AddressPage from './pages/Address';
-import Checkout from './pages/Checkout';
-const Order = lazy(() => import('./pages/Order'))
+const AddressPage = lazy(()=> import('./pages/Address'));
+const Checkout = lazy(()=> import('./pages/Checkout'));
+const Order = lazy(() => import('./pages/Order'));
+const OrderSuccess = lazy(()=> import('./pages/Successful'));
+const OrderFailed = lazy(()=>import('./pages/OrderFailed'))
+
 
 const App = () => {
   const [itemCount, setItemCount] = useState(0);
@@ -44,6 +47,8 @@ const App = () => {
           <Route path='/restaurants/:id' element={<ViewRest />} />
           <Route path='*' element={<NotFound />} />
           <Route path='/cart/checkout' element={<Checkout />} />
+          <Route path='/order/placed/:orderId' element={<OrderSuccess/>} />
+          <Route path='/order/failed' element={<OrderFailed/>} />
         </Routes>
       </Suspense>
     </div>
