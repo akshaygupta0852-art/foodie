@@ -14,11 +14,11 @@ import Footer from './components/common/Footer';
 import Loader from './components/common/Loader';
 import Mainlayout from './layouts/Mainlayout';
 import ViewRest from './components/restaurants/ViewRest';
-const AddressPage = lazy(()=> import('./pages/Address'));
-const Checkout = lazy(()=> import('./pages/Checkout'));
+const AddressPage = lazy(() => import('./pages/Address'));
+const Checkout = lazy(() => import('./pages/Checkout'));
 const Order = lazy(() => import('./pages/Order'));
-const OrderSuccess = lazy(()=> import('./pages/Successful'));
-const OrderFailed = lazy(()=>import('./pages/OrderFailed'))
+const OrderSuccess = lazy(() => import('./pages/Successful'));
+const OrderFailed = lazy(() => import('./pages/OrderFailed'))
 
 
 const App = () => {
@@ -31,7 +31,6 @@ const App = () => {
             <Route path='/' element={<Home />} />
             <Route path='/restaurants' element={<Restaurants />} />
             <Route element={<ProtectedRoute />} >
-              <Route path='/userprofile' element={<Profile />} />
               <Route path='/orders/:id' element={<Order />} />
             </Route>
             <Route path='/categories' element={<Categories />} />
@@ -47,8 +46,10 @@ const App = () => {
           <Route path='/restaurants/:id' element={<ViewRest />} />
           <Route path='*' element={<NotFound />} />
           <Route path='/cart/checkout' element={<Checkout />} />
-          <Route path='/order/placed/:orderId' element={<OrderSuccess/>} />
-          <Route path='/order/failed' element={<OrderFailed/>} />
+          <Route path='/order/placed/:orderId' element={<OrderSuccess />} />
+          <Route path='/order/failed' element={<OrderFailed />} />
+          <Route path='/userprofile' element={<Profile />} />
+
         </Routes>
       </Suspense>
     </div>

@@ -8,9 +8,9 @@ import Navbar from '../components/common/Navbar'
 const Cart = ({ changeCount }) => {
   const { cart, setCart } = useCart();
   const {addresses, setAddresses} = useCart()
-  const itemCount = cart.reduce((total, item) => {
+  const itemCount = cart?.reduce((total, item) => {
     return total + item.quantity
-  }, 0)
+  }, 0) || 0
   const getLatestCart = async () => {
     const data = await getCartItem();
     setCart(data);

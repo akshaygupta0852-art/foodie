@@ -1,21 +1,22 @@
 import logo from '../../assets/images/logo.png'
 import { CircleUser, MapPin, Plus, ShoppingCart, User } from 'lucide-react'
 import { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 
 const Navbar = () => {
   const { cart } = useCart();
-  const itemCount = cart.reduce(
+  const itemCount = cart?.reduce(
     (total, item) => { return total + item?.quantity },
     0
-  )
+  ) || 0
   const navClass = ({ isActive }) =>
     `px-2 box-border flex items-center justify-center h-full
    text-center transition-all ease-in duration-150
    cursor-pointer hover:text-(--primary) hover:border-(--primary)
    ${isActive ? "navLiActive" : ""}`;
-
+  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
   return (
     <div className='relative w-screen h-(--navbar-height) flex items-center overflow-hidden justify-between px-(--space-xl) max-lg:flex-col max-lg:h-fit max-lg:px-(--space-sm)'>
       <img src={logo} className='h-full scale-150 max-lg:h-15 max-lg:self-start' />
@@ -63,7 +64,12 @@ const Navbar = () => {
             </span>
           </div>
         </Link>
+        {token ? 
         <Link to='/userprofile'><User size={30} className='cursor-pointer max-lg:scale-70' /></Link>
+      : <button onClick={()=>{
+        navigate('/portal')
+      }} className='bg-(--primary) text-white text-lg font-semibold cursor-pointer px-(--space-lg) rounded py-(--space-xs) hover:bg-(--primary-dark)'>Login</button>  
+      }
       </div>
     </div>
   )

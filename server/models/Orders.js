@@ -2,12 +2,15 @@ import mongoose from "mongoose";
 
 const orderItemSchema = new mongoose.Schema(
   {
-    food: {
+    foodId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Food",
+      ref: "foods",
       required: true,
     },
-
+    image: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -25,60 +28,48 @@ const orderItemSchema = new mongoose.Schema(
       min: 1,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const deliveryAddressSchema = new mongoose.Schema(
   {
+    username: {
+      type: String,
+      required: true,
+    },
+    mobile: {
+      type: String,
+      required: true,
+    },
     label: {
       type: String,
-      default: "Home",
     },
-
-    houseNo: {
-      type: String,
-      required: true,
-    },
-
-    street: {
-      type: String,
-      required: true,
-    },
-
-    landmark: {
-      type: String,
-    },
-
-    city: {
-      type: String,
-      required: true,
-    },
-
-    state: {
-      type: String,
-      required: true,
-    },
-
-    pincode: {
+    fullAddress: {
       type: String,
       required: true,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const orderSchema = new mongoose.Schema(
   {
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
 
     restaurant: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Restaurant",
-      required: true,
+      restaurantId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Restaurants",
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
     },
 
     items: {
@@ -90,12 +81,12 @@ const orderSchema = new mongoose.Schema(
       },
     },
 
-    deliveryAddress: {
+    address : {
       type: deliveryAddressSchema,
       required: true,
     },
 
-    totalAmount: {
+    totalPrice: {
       type: Number,
       required: true,
       min: 0,
@@ -130,10 +121,16 @@ const orderSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    paymentMethod: {
+      type: String,
+      enum: ["COD", "UPI", "Credit card", "Paytm"],
+      required: true,
+      default: "COD",
+    },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Order = mongoose.model("Order", orderSchema);

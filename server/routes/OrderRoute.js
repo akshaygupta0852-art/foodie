@@ -1,7 +1,7 @@
 import express from "express";
 import auth from "../middleware/authmiddleware.js";
 import User from "../models/User.js";
-import Orders from "../models/Order.js";
+import Order from "../models/Orders.js"
 const router = express.Router();
 
 router.post("/place", auth, async (req, res) => {
@@ -28,7 +28,7 @@ router.post("/place", auth, async (req, res) => {
 
     const totalAmount = subTotal + deliveryFee + packagingFee;
 
-    const newOrder = await Orders.create({
+    const newOrder = await Order.create({
       userId: userId,
       restaurant,
       items,
@@ -66,7 +66,7 @@ router.get("/find/:id", auth, async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const order = await Orders.findOne({
+    const order = await Order.findOne({
       _id: req.params.id,
       userId: userId,
     });

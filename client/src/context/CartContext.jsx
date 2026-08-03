@@ -24,7 +24,7 @@ export function CartProvider({ children }) {
         getLatestCart();
         handleGetAddresses();
     }, []);
-    const defaultAddress = addresses.find((add) => add.isDefault);
+    const defaultAddress = addresses?.find((add) => add.isDefault);
     useEffect(() => {
         if (defaultAddress) {
             setSelected(defaultAddress._id);

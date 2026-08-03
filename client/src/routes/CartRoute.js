@@ -21,7 +21,7 @@ export async function addToCart(userId, foodId, restrauId, quantity = 1) {
 }
 
 export async function getCartItem() {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/cart/view`, {
+  if(token){const response = await fetch(`${import.meta.env.VITE_API_URL}/cart/view`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -31,7 +31,7 @@ export async function getCartItem() {
     return result?.cart;
   } else {
     console.error(response?.message);
-  }
+  }}
 }
 
 export async function clearCart(){

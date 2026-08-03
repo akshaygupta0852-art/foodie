@@ -28,7 +28,6 @@ const Foodcard = ({ data, onCartUpdated }) => {
                 w-fit self-end text-(--primary) px-(--space-sm) rounded-sm py-(--space-xs) font-semibold'
                     onClick={async ()=>{
                         const userID = localStorage.getItem('userId');
-                        console.log(userID, data._id, data.restaurant, 1);
                         await addToCart(userID, data._id, data.restaurant, 1);
                         await onCartUpdated();
                     }}
