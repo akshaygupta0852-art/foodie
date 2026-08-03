@@ -80,7 +80,7 @@ const Main = ({ data }) => {
                         })}
                     </select>
                 </div>
-                <div className='overflow-auto flex flex-col gap-3'>
+                <div className='overflow-auto w-full flex flex-col gap-3'>
                     {filteredFood.map((food) => {
                         return <Foodcard key={food._id} data={food} onCartUpdated={getLatestCart} />
                     })}

@@ -52,7 +52,7 @@ const Navbar = () => {
       </ul>
       <div className='flex gap-15 items-center top-3 right-0 max-lg:absolute max-lg:gap-3'>
         <Link to="/cart">
-          <div className="relative inline-block scale-70">
+          <div className="relative inline-block max-lg:scale-70">
             <ShoppingCart
               size={30}
               className="cursor-pointer"

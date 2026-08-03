@@ -1,7 +1,34 @@
 import { BadgePercent, MapPin, PackageCheck, Wallet } from 'lucide-react'
-import React from 'react'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+    const [search, setSearch] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    function debounce(fnc, delay = 700) {
+        let timer;
+
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                fnc(...args)
+            }, delay);
+        }
+    }
+    const searchFood = async (value) => {
+        if (!value.trim()) {
+            setSuggestions([]);
+            return;
+        }
+
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/find/?q=${value}`);
+
+        const data = await response.json();
+        setSuggestions(data?.food)
+    }
+    const debouncedSearch = debounce(searchFood, 3000);
+
+    const navigate = useNavigate();
     return (
         <div className='w-full flex px-(--space-xl) py-(--space-lg) max-lg:flex-col max-lg:px-(--space-sm)'>
             <div className='w-1/2 flex flex-col max-lg:items-center max-lg:w-full'>
@@ -14,10 +41,25 @@ const Hero = () => {
                     Delivered in Minutes.
                 </h1>
                 <p className='mt-(--space-lg) text-xl max-lg:mt-(--space-md) max-lg:text-sm'>Discover the best Restaurants and enjoy<br /> mouthwatering meals at your doorstep.</p>
-                <div className='flex gap-2 mt-(--space-lg)'>
-                    <input type='text' className='px-(--space-md) bg-gray-200 w-3/7 rounded-md py-(--space-sm) border-0 outline-0 max-lg:w-full' placeholder='Search for food or restaurant' /> 
-                    <button
-                        type='button' className='text-white text-xl font-semibold px-(--space-md) py-(--space-sm) border-0 outline-0 cursor-pointer bg-(--primary) rounded-md'>Search</button>
+                <div className='flex relative gap-2 mt-(--space-lg)'>
+                    <input type='text' onChange={(e)=>{
+                        const value = e.target.value;
+                        setSearch(value);
+                        debouncedSearch(value)
+                    }} className='px-(--space-md) bg-gray-200 w-full rounded-md py-(--space-sm) border-0 outline-0 max-lg:w-full' placeholder='Search for food or restaurant' />
+                    {suggestions?.length > 0 && (
+                        <div className="absolute rounded-t-md overflow-hidden top-full left-0 w-full bg-white">
+                            {suggestions.map((food) => (
+                                <div key={food._id}
+                                onClick={()=>{navigate(`/restaurants/${food.restaurant}`)}}
+                                className='border-b border-l border-r px-(--space-sm) w-full border-gray-300
+                                font-semibold py-(--space-sm) text-gray-600 cursor-pointer tracking-wider hover:bg-gray-200
+                                '>
+                                    {food.name}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
                 <div className='flex gap-10 mt-(--space-md) max-lg:gap-2'>
                     <div className='flex items-center gap-2'>

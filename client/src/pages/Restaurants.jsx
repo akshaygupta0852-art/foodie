@@ -7,6 +7,7 @@ import CategoryCarousel from '../components/restaurants/CategoryCarousel';
 const Restaurants = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [restaurants, setRestaurants] = useState([]);
+  const [search, setSearch] = useState('');
   const navigate = useNavigate();
   useEffect(() => {
     const getRestaurants = async () => {
@@ -19,16 +20,16 @@ const Restaurants = () => {
     getRestaurants();
   }, []);
 
-const filteredRest =
-  selectedCategory === "All"
-    ? restaurants
-    : restaurants.filter((restaurant) =>
+  const filteredRest =
+    selectedCategory === "All"
+      ? restaurants
+      : restaurants.filter((restaurant) =>
         restaurant?.cuisine.includes(selectedCategory)
       );
 
   return (
     <div className='flex mt-(--space-md) flex-col px-(--space-sm) gap-4'>
-      <SearchRest />
+      <SearchRest/>
       <CategoryCarousel data={restaurants} change={setSelectedCategory} />
       <div className='grid grid-cols-3 mt-4 space-x-5 space-y-4 max-lg:grid-cols-1'>
         {filteredRest.map((restaurant) => (

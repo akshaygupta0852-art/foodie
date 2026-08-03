@@ -9,6 +9,7 @@ import singleRest from "./routes/singleRest.js";
 import restrauFood from "./routes/RestrauFood.js";
 import addressRoute from "./routes/Address.js";
 import orderRoute from "./routes/OrderRoute.js";
+import searchRoute from "./routes/HomeSearch.js";
 
 export const connectDB = async () => {
   try {
@@ -31,6 +32,7 @@ app.use('/user', singleRest);
 app.use('/user', restrauFood);
 app.use('/cart', cartroute );
 app.use('/address', addressRoute);
-app.use('/order', orderRoute)
+app.use('/order', orderRoute);
+app.use(searchRoute);
 
 export default app;
