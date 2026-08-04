@@ -1,7 +1,7 @@
 import express from "express";
 import auth from "../middleware/authmiddleware.js";
 import User from "../models/User.js";
-import Order from "../models/Orders.js"
+import Order from "../models/Orders.js";
 const router = express.Router();
 
 // place order route
@@ -84,7 +84,7 @@ router.get("/find/:id", auth, async (req, res) => {
 
     return res.status(200).json({
       type: "Done",
-      data : order
+      data: order,
     });
   } catch (error) {
     return res.status(500).json({
@@ -95,30 +95,78 @@ router.get("/find/:id", auth, async (req, res) => {
 
 // view all orders route
 
-router.get('/all', auth, async (req, res)=>{
-  try{
+router.get("/all", auth, async (req, res) => {
+  try {
     const userid = req.user.id;
 
     const orders = await Order.find({
-      userId : userid
+      userId: userid,
     });
 
-    if(!orders){
+    if (!orders) {
       return res.status(404).json({
-        message : 'No order placed!',
-        type : 'Failed'
-      })
+        message: "No order placed!",
+        type: "Failed",
+      });
     }
     return res.status(200).json({
       orders,
-      type : 'Done'
-    })
-  }catch(err){
+      type: "Done",
+    });
+  } catch (err) {
     console.error(err);
     return res.status(500).json({
-      message : 'Internal server error!',
-      type : 'Failed'
-    })
+      message: "Internal server error!",
+      type: "Failed",
+    });
   }
-})
+});
+
+// Order cancel
+
+router.patch("/cancel/:orderId", auth, async (req, res) => {
+  try {
+    const userid = req.user.id;
+
+    const order = await Order.findOne({
+      userId: userid,
+      _id: req.params.orderId,
+    });
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found!",
+        type: "Failed",
+      });
+    }
+
+    if (order.orderStatus === "placed") {
+      order.orderStatus = "cancelled";
+      await order.save();
+      return res.status(200).json({
+        message: "Order is successfully cancelled!",
+        type: "Done",
+      });
+    }
+    else if(order.orderStatus === 'cancelled'){
+      return res.status(400).json({
+        message : 'This order is already cancelled!',
+        type : 'Failed'
+      })
+    }
+    else{
+      return res.status(400).json({
+        message : 'This order can no longer be cancelled!',
+        type : 'Failed'
+      })
+    }
+  } catch (Err) {
+    console.error(Err);
+    return res.status(500).json({
+      message: "Internal server error!",
+      type: "Failed",
+    });
+  }
+});
+
 export default router;

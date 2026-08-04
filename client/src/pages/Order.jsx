@@ -10,22 +10,24 @@ import Navbar from "../components/common/Navbar";
 import { useEffect, useState } from "react";
 import { orderHistory } from "../routes/OrdersRoutes";
 import Ordercard from "../components/Order/Ordercard";
+import Loader from '../components/common/Loader'
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
   const handleOrderHistory = async () => {
     const data = await orderHistory();
     if (data.type === 'Failed') {
       return console.log(data.message);
     }
-    console.log(data)
-    setOrders(data.orders)
+    setOrders(data.orders);
+    setLoading(false)
   }
   useEffect(() => {
     handleOrderHistory();
   }, [])
 
-  return (
+  if(!loading){return (
     <div className="min-h-screen bg-[#FFFfff]">
 
       {/* ================= HEADER ================= */}
@@ -101,6 +103,7 @@ const OrderHistory = () => {
       </main>
 
     </div>
-  );
+  );}
+  return <Loader />
 };
 export default OrderHistory;

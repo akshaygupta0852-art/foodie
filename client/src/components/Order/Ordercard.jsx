@@ -1,5 +1,6 @@
 import { FiCheckCircle, FiChevronRight, FiClock, FiRefreshCw, FiXCircle } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom'
+import { cancelOrder } from "../../routes/OrdersRoutes";
 
 const Ordercard = ({ order }) => {
     const navigate = useNavigate();
@@ -149,7 +150,9 @@ const Ordercard = ({ order }) => {
 
 
                     {order.orderStatus === "placed" && (
-                        <button className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-5 py-3 text-sm font-medium cursor-pointer transition text-white bg-(--primary) hover:bg-(--primary-dark)">
+                        <button
+                        onClick={()=>{cancelOrder(order._id)}}
+                        className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-5 py-3 text-sm font-medium cursor-pointer transition text-white bg-(--primary) hover:bg-(--primary-dark)">
                             <FiXCircle size={16}  />
                             Cancel
                         </button>
