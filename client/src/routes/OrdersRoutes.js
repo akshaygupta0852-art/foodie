@@ -58,3 +58,16 @@ export async function cancelOrder(orderId) {
   console.log(result)
   return result;
 }
+
+
+export async function categorisedOrders(type){
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/order/view/${type}`,{
+    headers :{
+      Authorization : `Bearer ${token}`
+    }
+  });
+
+  const result = await response.json();
+  console.log(result);
+  return result
+}

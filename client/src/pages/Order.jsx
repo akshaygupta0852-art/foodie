@@ -8,7 +8,7 @@ import {
 } from "react-icons/fi";
 import Navbar from "../components/common/Navbar";
 import { useEffect, useState } from "react";
-import { orderHistory } from "../routes/OrdersRoutes";
+import { categorisedOrders, orderHistory } from "../routes/OrdersRoutes";
 import Ordercard from "../components/Order/Ordercard";
 import Loader from '../components/common/Loader'
 
@@ -25,7 +25,14 @@ const OrderHistory = () => {
   }
   useEffect(() => {
     handleOrderHistory();
-  }, [])
+  }, []);
+
+  const handleCategorySearch = async (type) =>{
+    const data = await categorisedOrders(type);
+    if(data.type == 'Done'){
+      setOrders(data.orders)
+    }
+  }
 
   if(!loading){return (
     <div className="min-h-screen bg-[#FFFfff]">
@@ -59,6 +66,10 @@ const OrderHistory = () => {
           {/* Filter */}
 
           <select
+            onChange={(e)=> {
+              const target = e.target.value
+              handleCategorySearch(target)
+            }}
             className="rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 outline-none focus:border-[#FF6B35]"
           >
             <option>All Orders</option>

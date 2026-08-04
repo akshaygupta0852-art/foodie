@@ -101,7 +101,7 @@ router.get("/all", auth, async (req, res) => {
 
     const orders = await Order.find({
       userId: userid,
-    });
+    })?.sort({createdAt : -1});
 
     if (!orders) {
       return res.status(404).json({
@@ -147,21 +147,71 @@ router.patch("/cancel/:orderId", auth, async (req, res) => {
         message: "Order is successfully cancelled!",
         type: "Done",
       });
-    }
-    else if(order.orderStatus === 'cancelled'){
+    } else if (order.orderStatus === "cancelled") {
       return res.status(400).json({
-        message : 'This order is already cancelled!',
-        type : 'Failed'
-      })
-    }
-    else{
+        message: "This order is already cancelled!",
+        type: "Failed",
+      });
+    } else {
       return res.status(400).json({
-        message : 'This order can no longer be cancelled!',
-        type : 'Failed'
-      })
+        message: "This order can no longer be cancelled!",
+        type: "Failed",
+      });
     }
   } catch (Err) {
     console.error(Err);
+    return res.status(500).json({
+      message: "Internal server error!",
+      type: "Failed",
+    });
+  }
+});
+
+// categorised order view
+
+router.get("/view/:type", auth, async (req, res) => {
+  try {
+    const userid = req.user.id;
+
+    if (req.params.type === "All Orders") {
+      const orders = await Order.find({
+        userId: userid,
+      })?.sort({createdAt : -1});
+
+      return res.status(200).json({
+        type: "Done",
+        orders,
+      });
+    }
+    if (req.params.type === "Cancelled") {
+      const orders = await Order.find({
+        userId: userid,
+        orderStatus: "cancelled",
+      })?.sort({createdAt : -1});
+      return res.status(200).json({
+        type: "Done",
+        orders,
+      });
+    }
+    if (req.params.type === "In Progress") {
+      const orders = await Order.find({
+        userId: userid,
+        orderStatus: {
+          $in : ['out-for-delivery', 'placed', 'confirmed', 'preparing']
+        }
+      })?.sort({createdAt : -1});
+      return res.status(200).json({
+        type: "Done",
+        orders,
+      });
+    }
+
+    return res.status(404).json({
+      message : 'No orders found!',
+      type : 'Failed'
+    });
+  } catch (err) {
+    console.error(err);
     return res.status(500).json({
       message: "Internal server error!",
       type: "Failed",

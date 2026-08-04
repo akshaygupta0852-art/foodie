@@ -13,7 +13,7 @@ const Ordercard = ({ order }) => {
 
                 <div>
 
-                    <div className="flex flex-wrap items-center gap-3">
+                    <div className="flex flex-wrap gap-3">
 
                         <h2 className="font-bold text-gray-900">
                             Order #{order._id}
@@ -22,7 +22,7 @@ const Ordercard = ({ order }) => {
                         <span
                             className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ${status.className}`}
                         >
-                            {/* {status.icon} */}
+                            
                             {order.orderStatus}
                         </span>
 
@@ -125,7 +125,11 @@ const Ordercard = ({ order }) => {
 
                 {/* ================= ACTIONS ================= */}
 
-                <div className="mt-5 flex flex-col gap-3 border-t border-gray-100 pt-5 sm:flex-row sm:justify-end">
+                <div className="mt-5 flex flex-col gap-3 border-t border-gray-100 pt-5 sm:flex-row sm:justify-between">
+                    <div className="flex flex-col">
+                        <span className="max-lg:text-sm">{order.address.username} {order.address.mobile}</span>
+                        <span className="text-sm text-gray-500 max-lg:text-xs">{order.address.label}- {order.address.fullAddress}</span>
+                    </div>
 
                     {order.orderStatus === "Delivered" && (
                         <>
@@ -141,12 +145,12 @@ const Ordercard = ({ order }) => {
                         </>
                     )}
 
-                    {order.orderStatus === "cancelled" && (
+                    {/* {order.orderStatus === "cancelled" && (
                         <button className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-5 py-3 text-sm font-medium text-gray-700 transition hover:border-[#FF6B35] hover:text-[#FF6B35]">
                             <FiRefreshCw size={16} />
                             Order Again
                         </button>
-                    )}
+                    )} */}
 
 
                     {order.orderStatus === "placed" && (
