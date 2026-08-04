@@ -36,3 +36,12 @@ export async function checkOrder(orderId) {
   const result = await response.json();
   return result;
 }
+export async function orderHistory(){
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/order/all`,{
+    headers : {
+      Authorization : `Bearer ${token}`
+    }
+  });
+  const result = await response.json();
+  return result;
+}

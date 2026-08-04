@@ -8,6 +8,7 @@ export function CartProvider({ children }) {
     const [cart, setCart] = useState([]);
     const [addresses, setAddresses] = useState([]);
     const [selected, setSelected] = useState(null);
+    const [user, setUser] = useState({});
 
 
     const handleGetAddresses = async () => {
@@ -32,7 +33,7 @@ export function CartProvider({ children }) {
     }, [defaultAddress]);
 
     return (
-        <CartContext.Provider value={{ cart, setCart, addresses, selected, setSelected, setAddresses, handleGetAddresses }}>
+        <CartContext.Provider value={{ cart, setUser, user, setCart, addresses, selected, setSelected, setAddresses, handleGetAddresses }}>
             {children}
         </CartContext.Provider>
     );

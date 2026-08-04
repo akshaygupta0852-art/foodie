@@ -1,15 +1,16 @@
+import cors from 'cors'
 import express from "express";
 import mongoose from "mongoose";
-import loginRoute from "./routes/Loginroute.js";
-import signupRoute from "./routes/signuproute.js";
-import cors from 'cors'
 import cartroute from "./routes/Cartroute.js";
-import restaurantsRoute from "./routes/Restaurantroute.js";
-import singleRest from "./routes/singleRest.js";
-import restrauFood from "./routes/RestrauFood.js";
 import addressRoute from "./routes/Address.js";
+import loginRoute from "./routes/Loginroute.js";
+import singleRest from "./routes/singleRest.js";
 import orderRoute from "./routes/OrderRoute.js";
 import searchRoute from "./routes/HomeSearch.js";
+import signupRoute from "./routes/signuproute.js";
+import restrauFood from "./routes/RestrauFood.js";
+import userRoute from "./routes/AccountRoutes.js";
+import restaurantsRoute from "./routes/Restaurantroute.js";
 
 export const connectDB = async () => {
   try {
@@ -30,6 +31,7 @@ app.use("/user", signupRoute);
 app.use('/user', restaurantsRoute);
 app.use('/user', singleRest);
 app.use('/user', restrauFood);
+app.use('/user', userRoute);
 app.use('/cart', cartroute );
 app.use('/address', addressRoute);
 app.use('/order', orderRoute);

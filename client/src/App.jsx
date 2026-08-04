@@ -1,25 +1,24 @@
 import { lazy, Suspense, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import Cart from './pages/Cart';
+import Navbar from './components/common/Navbar';
+import Mainlayout from './layouts/Mainlayout';
+import Footer from './components/common/Footer';
+import Loader from './components/common/Loader';
 const Home = lazy(() => import("./pages/Home"));
 const Restaurants = lazy(() => import("./pages/Restaurants"));
 const Portal = lazy(() => import("./pages/Portal"));
-import Cart from './pages/Cart';
 const Profile = lazy(() => import("./pages/Profile"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Categories = lazy(() => import('./pages/Categories'));
 const Guest = lazy(() => import('./layouts/Guest'));
 const ProtectedRoute = lazy(() => import('./routes/ProtectedRoute'));
-import Navbar from './components/common/Navbar';
-import Footer from './components/common/Footer';
-import Loader from './components/common/Loader';
-import Mainlayout from './layouts/Mainlayout';
-import ViewRest from './components/restaurants/ViewRest';
+const ViewRest = lazy(() => import('./components/restaurants/ViewRest'))
 const AddressPage = lazy(() => import('./pages/Address'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const Order = lazy(() => import('./pages/Order'));
 const OrderSuccess = lazy(() => import('./pages/Successful'));
-const OrderFailed = lazy(() => import('./pages/OrderFailed'))
-
+const OrderFailed = lazy(() => import('./pages/OrderFailed'));
 
 const App = () => {
   const [itemCount, setItemCount] = useState(0);
@@ -30,14 +29,13 @@ const App = () => {
           <Route element={<Mainlayout />}>
             <Route path='/' element={<Home />} />
             <Route path='/restaurants' element={<Restaurants />} />
-            <Route element={<ProtectedRoute />} >
-              <Route path='/orders/:id' element={<Order />} />
-            </Route>
             <Route path='/categories' element={<Categories />} />
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path='/cart' element={<Cart changeCount={setItemCount} />} />
-
+          </Route>
+          <Route element={<ProtectedRoute />} >
+            <Route path='/orders' element={<Order />} />
           </Route>
           <Route element={<Guest />}>
             <Route path='/portal' element={<Portal />} />

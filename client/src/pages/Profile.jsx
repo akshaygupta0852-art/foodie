@@ -9,17 +9,17 @@ import {
   FiLogOut,
   FiTrash2,
   FiChevronRight,
+  FiMap,
 } from "react-icons/fi";
 import Navbar from '../components/common/Navbar';
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useCart } from "../context/CartContext";
 
 const Profile = () => {
   // Later you can replace this with user data from your API/context
-  const user = {
-    name: "Akshay Gupta",
-    email: "akshay@gmail.com",
-    mobile: "+91 98765 43210",
-  };
+  const {user} = useCart();
+
   const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-[#FFFCF8]">
@@ -42,15 +42,11 @@ const Profile = () => {
             <div className="mt-4 flex-1 sm:ml-6 sm:mt-0">
 
               <h1 className="text-2xl font-bold text-gray-900">
-                {user.name}
+                {user?.userName}
               </h1>
 
               <p className="mt-1 text-gray-500">
-                {user.email}
-              </p>
-
-              <p className="mt-1 text-sm text-gray-500">
-                {user.mobile}
+                {user?.email}
               </p>
 
             </div>
@@ -60,13 +56,14 @@ const Profile = () => {
             <button
               className="
                 mt-5 flex items-center gap-2 rounded-xl
-                border border-[#FF6B35]
+                border border-(--primary)
                 px-5 py-3
-                font-medium text-[#FF6B35]
+                font-medium text-(--primary)
                 transition
-                hover:bg-[#FF6B35]
+                hover:bg-(--primary)
                 hover:text-white
                 sm:mt-0
+                cursor-pointer
               "
             >
               <FiEdit2 size={17} />
@@ -91,8 +88,11 @@ const Profile = () => {
             icon={<FiShoppingBag />}
             title="Order History"
             description="View your previous orders"
-            onClick={() => console.log("Order History")}
+            onClick={() => navigate('/orders')}
           />
+
+          <ProfileOption icon={<FiMap />} title='Address details' description="View your saved address"
+          onClick={()=> navigate('/user/address')}/>
 
           <ProfileOption
             icon={<FiHeart />}
@@ -276,7 +276,8 @@ const ProfileOption = ({
         text-left
         transition
         last:border-b-0
-        hover:bg-orange-50/40
+        hover:bg-gray-100
+        cursor-pointer
       "
     >
 

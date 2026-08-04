@@ -4,6 +4,8 @@ import User from "../models/User.js";
 import Order from "../models/Orders.js"
 const router = express.Router();
 
+// place order route
+
 router.post("/place", auth, async (req, res) => {
   try {
     const { items, address, restaurant } = req.body;
@@ -62,6 +64,8 @@ router.post("/place", auth, async (req, res) => {
   }
 });
 
+// check order route
+
 router.get("/find/:id", auth, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -88,4 +92,33 @@ router.get("/find/:id", auth, async (req, res) => {
     });
   }
 });
+
+// view all orders route
+
+router.get('/all', auth, async (req, res)=>{
+  try{
+    const userid = req.user.id;
+
+    const orders = await Order.find({
+      userId : userid
+    });
+
+    if(!orders){
+      return res.status(404).json({
+        message : 'No order placed!',
+        type : 'Failed'
+      })
+    }
+    return res.status(200).json({
+      orders,
+      type : 'Done'
+    })
+  }catch(err){
+    console.error(err);
+    return res.status(500).json({
+      message : 'Internal server error!',
+      type : 'Failed'
+    })
+  }
+})
 export default router;
