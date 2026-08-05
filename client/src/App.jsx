@@ -10,7 +10,6 @@ const Restaurants = lazy(() => import("./pages/Restaurants"));
 const Portal = lazy(() => import("./pages/Portal"));
 const Profile = lazy(() => import("./pages/Profile"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-const Categories = lazy(() => import('./pages/Categories'));
 const Guest = lazy(() => import('./layouts/Guest'));
 const ProtectedRoute = lazy(() => import('./routes/ProtectedRoute'));
 const ViewRest = lazy(() => import('./components/restaurants/ViewRest'))
@@ -29,7 +28,6 @@ const App = () => {
           <Route element={<Mainlayout />}>
             <Route path='/' element={<Home />} />
             <Route path='/restaurants' element={<Restaurants />} />
-            <Route path='/categories' element={<Categories />} />
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path='/cart' element={<Cart changeCount={setItemCount} />} />
