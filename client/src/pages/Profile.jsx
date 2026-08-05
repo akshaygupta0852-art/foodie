@@ -15,10 +15,11 @@ import Navbar from '../components/common/Navbar';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
+import { ShieldUser } from "lucide-react";
 
 const Profile = () => {
   // Later you can replace this with user data from your API/context
-  const {user} = useCart();
+  const { user } = useCart();
 
   const navigate = useNavigate();
   return (
@@ -92,7 +93,7 @@ const Profile = () => {
           />
 
           <ProfileOption icon={<FiMap />} title='Address details' description="View your saved address"
-          onClick={()=> navigate('/user/address')}/>
+            onClick={() => navigate('/user/address')} />
 
           <ProfileOption
             icon={<FiHeart />}
@@ -129,6 +130,43 @@ const Profile = () => {
             onClick={() => console.log("Privacy Policy")}
           />
 
+        </ProfileSection>
+
+
+        <ProfileSection title='Admin'>
+          <button
+            onClick={() => {
+              navigate('/admin/portal')
+            }}
+            className="
+              flex w-full items-center gap-4
+              px-4 py-4
+              text-left
+              transition
+              hover:bg-gray-100
+              cursor-pointer
+            "
+          >
+
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-600">
+              <ShieldUser size={19} />
+            </div>
+
+            <div className="flex-1">
+
+              <p className="font-medium text-gray-800">
+                Admin access
+              </p>
+
+              <p className="mt-0.5 text-sm text-gray-500">
+                Manage your CraveCart business with ease.
+              </p>
+
+            </div>
+
+            <FiChevronRight className="text-gray-400" />
+
+          </button>
         </ProfileSection>
 
 
