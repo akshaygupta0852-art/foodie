@@ -205,7 +205,15 @@ router.get("/view/:type", auth, async (req, res) => {
         orders,
       });
     }
-
+    if(req.params.type === 'Delivered'){
+      const orders = await Order.find({
+        orderStatus : 'delivered'
+      });
+      return res.status(200).json({
+        type : 'Done',
+        orders
+      });
+    }
     return res.status(404).json({
       message : 'No orders found!',
       type : 'Failed'
