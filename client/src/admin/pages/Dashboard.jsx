@@ -2,7 +2,6 @@ import { useState } from 'react'
 import AdminNavbar from '../components/AdminNavbar'
 import Options from '../components/Dashboard/Options'
 import Profile from '../components/Dashboard/Profile'
-import AddShop from '../components/Dashboard/AddShop'
 
 
 const Dashboard = () => {
@@ -25,7 +24,7 @@ const Dashboard = () => {
                 <aside className='shadow-2xl px-(--space-lg) py-(--space-md) rounded-2xl flex-1 max-lg:hidden'>
                     <span>{fnc}</span>
                     <div className='overflow-auto'>
-                        <AddShop />
+                        
                     </div>
                 </aside>
             </div>
