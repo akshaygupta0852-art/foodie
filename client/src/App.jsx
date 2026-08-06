@@ -5,6 +5,8 @@ import Navbar from './components/common/Navbar';
 import Mainlayout from './layouts/Mainlayout';
 import Footer from './components/common/Footer';
 import Loader from './components/common/Loader';
+import Dashboard from './admin/pages/Dashboard';
+import AdminProtectedRoute from './routes/AdminProtectedRoute';
 const Home = lazy(() => import("./pages/Home"));
 const Restaurants = lazy(() => import("./pages/Restaurants"));
 const Portal = lazy(() => import("./pages/Portal"));
@@ -18,7 +20,7 @@ const Checkout = lazy(() => import('./pages/Checkout'));
 const Order = lazy(() => import('./pages/Order'));
 const OrderSuccess = lazy(() => import('./pages/Successful'));
 const OrderFailed = lazy(() => import('./pages/OrderFailed'));
-
+const AdminLogin = lazy(() => import('./admin/pages/AdminLogin'))
 const App = () => {
   const [itemCount, setItemCount] = useState(0);
   return (
@@ -45,7 +47,10 @@ const App = () => {
           <Route path='/order/placed/:orderId' element={<OrderSuccess />} />
           <Route path='/order/failed' element={<OrderFailed />} />
           <Route path='/userprofile' element={<Profile />} />
-
+          <Route path='/admin/portal' element={<AdminLogin />} />
+          <Route element={<AdminProtectedRoute />}>
+            <Route path='/admin/dashboard' element={<Dashboard />} />
+          </Route>
         </Routes>
       </Suspense>
     </div>

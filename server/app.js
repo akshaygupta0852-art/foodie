@@ -11,6 +11,7 @@ import signupRoute from "./routes/signuproute.js";
 import restrauFood from "./routes/RestrauFood.js";
 import userRoute from "./routes/AccountRoutes.js";
 import restaurantsRoute from "./routes/Restaurantroute.js";
+import adminRoutes from './routes/AdminRoutes.js';
 
 export const connectDB = async () => {
   try {
@@ -26,15 +27,16 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/user", loginRoute);
-app.use("/user", signupRoute);
 app.use('/user', restaurantsRoute);
-app.use('/user', singleRest);
-app.use('/user', restrauFood);
-app.use('/user', userRoute);
-app.use('/cart', cartroute );
 app.use('/address', addressRoute);
+app.use('/admin', adminRoutes);
 app.use('/order', orderRoute);
+app.use("/user", signupRoute);
+app.use('/user', restrauFood);
+app.use("/user", loginRoute);
+app.use('/user', singleRest);
+app.use('/cart', cartroute );
+app.use('/user', userRoute);
 app.use(searchRoute);
 
 export default app;

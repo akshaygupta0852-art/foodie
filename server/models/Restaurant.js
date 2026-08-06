@@ -13,6 +13,12 @@ const restaurantSchema = new mongoose.Schema(
       trim: true,
     },
 
+    admin : {
+      type : mongoose.Schema.Types.ObjectId,
+      ref : 'Admin',
+      required : true 
+    },
+
     image: {
       type: String,
       required: true,
@@ -34,6 +40,17 @@ const restaurantSchema = new mongoose.Schema(
       default: 0,
       min: 0,
       max: 5,
+    },
+
+    followersCount : {
+      type : Number,
+      default : 0,
+      min : 0
+    },
+
+    followersId : {
+      type : [mongoose.Schema.Types.ObjectId],
+      ref  : "User"
     },
 
     deliveryTime: {

@@ -136,7 +136,7 @@ const Profile = () => {
         <ProfileSection title='Admin'>
           <button
             onClick={() => {
-              navigate('/admin/portal')
+              navigate('/admin/dashboard')
             }}
             className="
               flex w-full items-center gap-4

@@ -3,32 +3,39 @@ import { useParams } from "react-router-dom"
 import Navbar from '../common/Navbar.jsx';
 import { Heart, MapPin, Share, Star } from "lucide-react";
 import Main from "../restdetails/Main.jsx";
+import { favouriteOperation } from "../../routes/Restaurantroute.js";
 
 const ViewRest = () => {
   const [restrau, setRestrau] = useState({});
   const [foods, setFoods] = useState([]);
+  const [isFav, setIsFav] = useState(false)
 
   const params = useParams();
-  useEffect(() => {
-    async function getRestaurants() {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/user/restaurants/${params.id}`)
-      const data = await response.json();
-      if (response.ok) {
-        setRestrau(data.restaurant);
-      }
+  async function getRestaurants() {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/user/restaurants/${params.id}`)
+    const data = await response.json();
+    if (response.ok) {
+      setRestrau(data.restaurant);
     }
+  }
+  useEffect(() => {
     getRestaurants();
   }, []);
+  function checkFavorite() {
+    const userId = localStorage.getItem('userId');
+    const isFound = restrau?.followersId?.includes(userId);
+    setIsFav((prev)=> !prev);
+  }
   useEffect(() => {
     async function getRestaurantFood() {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/user/restaurants/${params.id}/foods`);
       const data = await response.json();
       if (response.ok) {
         setFoods(data.foods);
-      
       }
     }
     getRestaurantFood();
+    checkFavorite();
   }, []);
 
 
@@ -54,7 +61,11 @@ const ViewRest = () => {
         </div>
         <div className="h-full w-fit items-start py-(--space-lg) top-0 right-0 flex gap-6 max-lg:absolute">
           <button className="p-(--space-sm) cursor-pointer bg-gray-500 rounded-full max-lg:p-(--space-xs)"><Share className="max-lg:scale-80" /></button>
-          <button className="p-(--space-sm) cursor-pointer bg-gray-500 rounded-full max-lg:p-(--space-xs)"><Heart className="max-lg:scale-80" /></button>
+          <button className="p-(--space-sm) cursor-pointer bg-gray-500 rounded-full max-lg:p-(--space-xs)" onClick={() => {
+            favouriteOperation(restrau._id);
+            getRestaurants();
+            checkFavorite();
+          }} >{isFav ? <Heart className="max-lg:scale-80" fill="white" /> : <Heart className="max-lg:scale-80" />}</button>
         </div>
       </div>
       <Main data={foods} />
