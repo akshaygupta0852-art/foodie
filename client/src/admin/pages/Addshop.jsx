@@ -6,6 +6,7 @@ import ShopAddress from "../components/AddShop/ShopAddress";
 import ShopImageCuisine from "../components/AddShop/ShopImageCuisine";
 import { cuisines } from "../../constants/cuisines";
 import { addRestaurant } from "../../routes/Restaurantroute";
+import Loader from "../../components/common/Loader";
 
 export default function AddShop() {
     const [shopData, setShopData] = useState({
@@ -29,6 +30,7 @@ export default function AddShop() {
 
         image: null,
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -61,7 +63,7 @@ export default function AddShop() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setIsLoading((prev)=> !prev);
         const formData = new FormData();
 
         Object.keys(shopData).forEach((key) => {
@@ -76,12 +78,15 @@ export default function AddShop() {
 
         console.log(shopData);
 
-        await addRestaurant(formData);
+        const data = await addRestaurant(formData);
+        if(data.type === 'Done'){
+            setIsLoading((prev)=> !prev);
+        }
     };
 
     return (
         <section className="min-h-screen bg-gray-50 p-6">
-
+            {isLoading ? <Loader/> : ''}
             {/* Header */}
             <div className="mb-8 flex items-center justify-between">
 
