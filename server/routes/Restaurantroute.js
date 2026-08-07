@@ -42,11 +42,18 @@ router.post(
           type: "Failed",
         });
       }
+      const toMinutes = (time) => {
+        const [hours, minutes] = time.split(":").map(Number);
+        return hours * 60 + minutes;
+      };
 
-      const result = await uploadCloudinary(
-        req.file.buffer,
-        "restaurants",
-      );
+      if (toMinutes(openingTime) >= toMinutes(closingTime)) {
+        return res.status(400).json({
+          message: "Opening time must be earlier than closing time!",
+          type: "Failed",
+        });
+      }
+      const result = await uploadCloudinary(req.file.buffer, "restaurants");
       const newRest = await Restaurants.create({
         name,
         ownerName,
@@ -83,12 +90,24 @@ router.post(
 
 router.get("/restaurants", async (req, res) => {
   try {
+    const currentMin = new Date().getHours() * 60 + new Date().getMinutes();
+
     const data = await Restaurants.find({
       isActive: true,
       isOpen: true,
     });
+
+    const openRestaurants = data.filter((rest)=>{
+      const [openHour, openMinute] = rest.openingTime.split(':').map(Number);
+      const [closeHour, closeMinute] = rest.closingTime.split(':').map(Numebr);
+      
+      const open = openHour * 60 + openMinute;
+      const close = closeHour*60;
+
+      return currentMin >= open && currentMin <= currentMin
+    })
     return res.status(200).json({
-      restaurants: data,
+      restaurants : openRestaurants,
     });
   } catch (err) {
     console.error(err);
