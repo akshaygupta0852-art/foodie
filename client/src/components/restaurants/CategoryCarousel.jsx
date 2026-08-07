@@ -4,7 +4,7 @@ const CategoryCarousel = ({ data, change }) => {
     const [activeBtn, setActiveBtn] = useState('All')
     const cuisines = [
         ...new Set(
-            data.flatMap((restaurant) => restaurant.cuisine)
+            data?.flatMap((restaurant) => restaurant.cuisines)
         ),
     ];
     return (
@@ -15,7 +15,8 @@ const CategoryCarousel = ({ data, change }) => {
                 setActiveBtn('All');
             }}
             className={`text-xs ${activeBtn == 'All' ? "border-(--primary) text-(--primary) bg-(--primary-opacity-low)" : ''} cursor-pointer border px-(--space-md) rounded-full py-1`}>All</button>
-            {cuisines.map((elem)=>{
+            {cuisines?.map((elem)=>{
+                console.log(elem)
                 return <button key={elem}
                 onClick={()=>{
                     change(elem)

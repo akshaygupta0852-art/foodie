@@ -21,3 +21,14 @@ export async function addRestaurant(data) {
         body : data
     })
 }
+
+export async function deleteRestaurant(id){
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/admin/restaurant/delete?r=${id}`,{
+        method : "Delete",
+        headers : {
+            Authorization : `Bearer ${adminToken}`
+        }
+    });
+    const result = await response.json();
+    return result;
+}

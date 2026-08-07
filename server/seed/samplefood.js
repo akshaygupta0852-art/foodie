@@ -1,147 +1,262 @@
 import mongoose from "mongoose";
-import 'dotenv/config';
-import food from "../models/Food.js";
-const foods = [
-  // Restaurant 1
-  {
-    name: "Margherita Pizza",
-    description: "Classic pizza topped with tomato sauce, mozzarella and fresh basil.",
-    price: 249,
-    image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002",
-    category: "Pizza",
-    restaurant: "6a6abffa676ce64eadd52fd5",
-    isVeg: true,
-    isAvailable: true,
-    rating: 4.6,
-    totalReviews: 128,
-    preparationTime: 25,
-    discount: 10,
-  },
-  {
-    name: "Farmhouse Pizza",
-    description: "Loaded with onion, capsicum, tomato, mushrooms and mozzarella.",
-    price: 329,
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38",
-    category: "Pizza",
-    restaurant: "6a6abffa676ce64eadd52fd5",
-    isVeg: true,
-    isAvailable: true,
-    rating: 4.8,
-    totalReviews: 215,
-    preparationTime: 30,
-    discount: 15,
-  },
-  {
-    name: "Garlic Bread",
-    description: "Freshly baked garlic bread with herbs and melted cheese.",
-    price: 149,
-    image: "https://images.unsplash.com/photo-1761344788266-5f6957aeea33?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdhcmxpYyUyMGJyZWFkfGVufDB8fDB8fHww",
-    category: "Sides",
-    restaurant: "6a6abffa676ce64eadd52fd5",
-    isVeg: true,
-    isAvailable: true,
-    rating: 4.4,
-    totalReviews: 96,
-    preparationTime: 15,
-    discount: 0,
-  },
+import dotenv from "dotenv";
 
-  // Restaurant 2
-  {
-    name: "Classic Cheeseburger",
-    description: "Juicy grilled patty with cheddar cheese, lettuce, tomato and special sauce.",
-    price: 199,
-    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
-    category: "Burgers",
-    restaurant: "6a6abffa676ce64eadd52fd6",
-    isVeg: false,
-    isAvailable: true,
-    rating: 4.7,
-    totalReviews: 184,
-    preparationTime: 20,
-    discount: 10,
-  },
-  {
-    name: "Crispy Chicken Burger",
-    description: "Crispy fried chicken fillet with lettuce, cheese and creamy sauce.",
-    price: 229,
-    image: "https://images.unsplash.com/photo-1606755962773-d324e0a13086",
-    category: "Burgers",
-    restaurant: "6a6abffa676ce64eadd52fd6",
-    isVeg: false,
-    isAvailable: true,
-    rating: 4.8,
-    totalReviews: 241,
-    preparationTime: 25,
-    discount: 15,
-  },
-  {
-    name: "French Fries",
-    description: "Crispy golden fries seasoned with our special seasoning.",
-    price: 99,
-    image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877",
-    category: "Sides",
-    restaurant: "6a6abffa676ce64eadd52fd6",
-    isVeg: true,
-    isAvailable: true,
-    rating: 4.5,
-    totalReviews: 143,
-    preparationTime: 10,
-    discount: 0,
-  },
+import Restaurants from "../models/Restaurant.js"
+import Food from "../models/Food.js"
 
-  // Restaurant 3
-  {
-    name: "Paneer Butter Masala",
-    description: "Soft paneer cooked in a rich, creamy tomato and butter gravy.",
-    price: 249,
-    image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7",
-    category: "North Indian",
-    restaurant: "6a6abffa676ce64eadd52fd7",
-    isVeg: true,
-    isAvailable: true,
-    rating: 4.7,
-    totalReviews: 176,
-    preparationTime: 25,
-    discount: 10,
-  },
-  {
-    name: "Butter Naan",
-    description: "Soft Indian flatbread brushed with butter and fresh coriander.",
-    price: 59,
-    image: "https://images.unsplash.com/photo-1601050690597-df0568f70950",
-    category: "Indian Bread",
-    restaurant: "6a6abffa676ce64eadd52fd7",
-    isVeg: true,
-    isAvailable: true,
-    rating: 4.5,
-    totalReviews: 102,
-    preparationTime: 10,
-    discount: 0,
-  },
-  {
-    name: "Chicken Biryani",
-    description: "Aromatic basmati rice cooked with tender chicken and traditional spices.",
-    price: 299,
-    image: "https://images.unsplash.com/photo-1563379091339-03246963d96c",
-    category: "Biryani",
-    restaurant: "6a6abffa676ce64eadd52fd7",
-    isVeg: false,
-    isAvailable: true,
-    rating: 4.9,
-    totalReviews: 312,
-    preparationTime: 35,
-    discount: 20,
-  },
-];
-async function setSampleFoods() {
-    try{
-        await mongoose.connect(process.env.DBURI);
-        await food.deleteMany({});
-        await food.insertMany(foods);
-        console.log('food added successfully');
-    }catch(err){
-        console.error(err);
-    }
+dotenv.config();
+
+await mongoose.connect('mongodb://localhost:27017/');
+
+try {
+  // Fetch all restaurants
+  const restaurants = await Restaurants.find();
+
+  const restaurantMap = {};
+
+  restaurants.forEach((restaurant) => {
+    restaurantMap[restaurant.name] = restaurant._id;
+  });
+
+  const foods = [
+    // Pizza Palace
+    {
+      name: "Margherita Pizza",
+      description: "Classic cheese pizza with fresh basil.",
+      price: 299,
+      image: "https://picsum.photos/500/500?random=101",
+      category: "Pizza",
+      restaurant: restaurantMap["Pizza Palace"],
+      isVeg: true,
+      rating: 4.8,
+      totalReviews: 340,
+      preparationTime: 20,
+      discount: 10,
+    },
+    {
+      name: "Farmhouse Pizza",
+      description: "Loaded with fresh vegetables.",
+      price: 399,
+      image: "https://picsum.photos/500/500?random=102",
+      category: "Pizza",
+      restaurant: restaurantMap["Pizza Palace"],
+      isVeg: true,
+      rating: 4.7,
+      totalReviews: 280,
+      preparationTime: 25,
+      discount: 15,
+    },
+
+    // Burger Junction
+    {
+      name: "Classic Burger",
+      description: "Grilled burger with cheese.",
+      price: 179,
+      image: "https://picsum.photos/500/500?random=103",
+      category: "Burger",
+      restaurant: restaurantMap["Burger Junction"],
+      isVeg: false,
+      rating: 4.5,
+      totalReviews: 180,
+      preparationTime: 15,
+      discount: 5,
+    },
+    {
+      name: "Veg Burger",
+      description: "Crispy veg patty burger.",
+      price: 149,
+      image: "https://picsum.photos/500/500?random=104",
+      category: "Burger",
+      restaurant: restaurantMap["Burger Junction"],
+      isVeg: true,
+      rating: 4.4,
+      totalReviews: 150,
+      preparationTime: 15,
+      discount: 0,
+    },
+
+    // Royal Biryani
+    {
+      name: "Chicken Biryani",
+      description: "Authentic Hyderabadi chicken biryani.",
+      price: 349,
+      image: "https://picsum.photos/500/500?random=105",
+      category: "Biryani",
+      restaurant: restaurantMap["Royal Biryani"],
+      isVeg: false,
+      rating: 4.9,
+      totalReviews: 620,
+      preparationTime: 30,
+      discount: 20,
+    },
+    {
+      name: "Veg Biryani",
+      description: "Traditional vegetable biryani.",
+      price: 259,
+      image: "https://picsum.photos/500/500?random=106",
+      category: "Biryani",
+      restaurant: restaurantMap["Royal Biryani"],
+      isVeg: true,
+      rating: 4.6,
+      totalReviews: 210,
+      preparationTime: 25,
+      discount: 10,
+    },
+
+    // Chinese Wok
+    {
+      name: "Hakka Noodles",
+      description: "Stir-fried noodles with vegetables.",
+      price: 199,
+      image: "https://picsum.photos/500/500?random=107",
+      category: "Noodles",
+      restaurant: restaurantMap["Chinese Wok"],
+      isVeg: true,
+      rating: 4.5,
+      totalReviews: 160,
+      preparationTime: 20,
+      discount: 0,
+    },
+    {
+      name: "Chicken Fried Rice",
+      description: "Chinese style fried rice.",
+      price: 239,
+      image: "https://picsum.photos/500/500?random=108",
+      category: "Rice",
+      restaurant: restaurantMap["Chinese Wok"],
+      isVeg: false,
+      rating: 4.7,
+      totalReviews: 230,
+      preparationTime: 20,
+      discount: 5,
+    },
+
+    // South Spice
+    {
+      name: "Masala Dosa",
+      description: "Crispy dosa served with chutney.",
+      price: 149,
+      image: "https://picsum.photos/500/500?random=109",
+      category: "South Indian",
+      restaurant: restaurantMap["South Spice"],
+      isVeg: true,
+      rating: 4.8,
+      totalReviews: 310,
+      preparationTime: 15,
+      discount: 0,
+    },
+
+    {
+      name: "Idli Sambar",
+      description: "Soft idlis served with sambar.",
+      price: 99,
+      image: "https://picsum.photos/500/500?random=110",
+      category: "South Indian",
+      restaurant: restaurantMap["South Spice"],
+      isVeg: true,
+      rating: 4.7,
+      totalReviews: 220,
+      preparationTime: 10,
+      discount: 0,
+    },
+
+    // Punjabi Tadka
+    {
+      name: "Butter Chicken",
+      description: "Creamy butter chicken.",
+      price: 349,
+      image: "https://picsum.photos/500/500?random=111",
+      category: "North Indian",
+      restaurant: restaurantMap["The Punjabi Tadka"],
+      isVeg: false,
+      rating: 4.9,
+      totalReviews: 510,
+      preparationTime: 30,
+      discount: 10,
+    },
+
+    {
+      name: "Paneer Butter Masala",
+      description: "Paneer in rich tomato gravy.",
+      price: 299,
+      image: "https://picsum.photos/500/500?random=112",
+      category: "North Indian",
+      restaurant: restaurantMap["The Punjabi Tadka"],
+      isVeg: true,
+      rating: 4.8,
+      totalReviews: 390,
+      preparationTime: 25,
+      discount: 10,
+    },
+
+    // Healthy Bowl
+    {
+      name: "Caesar Salad",
+      description: "Healthy Caesar salad.",
+      price: 229,
+      image: "https://picsum.photos/500/500?random=113",
+      category: "Salad",
+      restaurant: restaurantMap["Healthy Bowl"],
+      isVeg: true,
+      rating: 4.6,
+      totalReviews: 120,
+      preparationTime: 10,
+      discount: 0,
+    },
+
+    // Sweet Treats
+    {
+      name: "Chocolate Cake",
+      description: "Rich chocolate cake.",
+      price: 199,
+      image: "https://picsum.photos/500/500?random=114",
+      category: "Dessert",
+      restaurant: restaurantMap["Sweet Treats"],
+      isVeg: true,
+      rating: 4.9,
+      totalReviews: 420,
+      preparationTime: 5,
+      discount: 15,
+    },
+
+    // Taco Fiesta
+    {
+      name: "Chicken Taco",
+      description: "Mexican style chicken taco.",
+      price: 189,
+      image: "https://picsum.photos/500/500?random=115",
+      category: "Mexican",
+      restaurant: restaurantMap["Taco Fiesta"],
+      isVeg: false,
+      rating: 4.4,
+      totalReviews: 170,
+      preparationTime: 15,
+      discount: 0,
+    },
+
+    // Cafe Brew
+    {
+      name: "Cappuccino",
+      description: "Freshly brewed coffee.",
+      price: 149,
+      image: "https://picsum.photos/500/500?random=116",
+      category: "Beverage",
+      restaurant: restaurantMap["Cafe Brew"],
+      isVeg: true,
+      rating: 4.8,
+      totalReviews: 260,
+      preparationTime: 5,
+      discount: 0,
+    },
+  ];
+
+  await Food.deleteMany();
+
+  await Food.insertMany(foods);
+
+  console.log("✅ Sample food inserted successfully.");
+} catch (err) {
+  console.error(err);
+} finally {
+  await mongoose.disconnect();
 }
-setSampleFoods();

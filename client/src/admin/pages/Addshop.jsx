@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 
 import ShopBasicInfo from "../components/AddShop/ShopBasicInfo";
 import ShopAddress from "../components/AddShop/ShopAddress";
@@ -7,6 +7,7 @@ import ShopImageCuisine from "../components/AddShop/ShopImageCuisine";
 import { cuisines } from "../../constants/cuisines";
 import { addRestaurant } from "../../routes/Restaurantroute";
 import Loader from "../../components/common/Loader";
+import { useNavigate } from "react-router-dom";
 
 export default function AddShop() {
     const [shopData, setShopData] = useState({
@@ -31,7 +32,7 @@ export default function AddShop() {
         image: null,
     });
     const [isLoading, setIsLoading] = useState(false);
-
+    const navigate = useNavigate();
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -63,7 +64,7 @@ export default function AddShop() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsLoading((prev)=> !prev);
+        setIsLoading((prev) => !prev);
         const formData = new FormData();
 
         Object.keys(shopData).forEach((key) => {
@@ -79,25 +80,30 @@ export default function AddShop() {
         console.log(shopData);
 
         const data = await addRestaurant(formData);
-        if(data.type === 'Done'){
-            setIsLoading((prev)=> !prev);
+        if (data.type === 'Done') {
+            setIsLoading((prev) => !prev);
         }
     };
 
     return (
         <section className="min-h-screen bg-gray-50 p-6">
-            {isLoading ? <Loader/> : ''}
+            {isLoading ? <Loader /> : ''}
             {/* Header */}
             <div className="mb-8 flex items-center justify-between">
 
-                <div>
-                    <h1 className="text-3xl font-bold text-gray-800">
-                        Add Shop
-                    </h1>
+                <div className="flex items-center gap-5">
+                    <ArrowLeft onClick={()=>{
+                        navigate(-1)
+                    }} size={32} className="transition duration-75 hover:bg-gray-200 cursor-pointer" />
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-800">
+                            Add Shop
+                        </h1>
 
-                    <p className="mt-1 text-gray-500">
-                        Register a new restaurant on CraveCart.
-                    </p>
+                        <p className="mt-1 text-gray-500">
+                            Register a new restaurant on CraveCart.
+                        </p>
+                    </div>
                 </div>
 
                 <button

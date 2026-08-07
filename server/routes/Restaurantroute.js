@@ -92,7 +92,7 @@ router.get("/restaurants", async (req, res) => {
 
     const openRestaurants = data.filter((rest)=>{
       const [openHour, openMinute] = rest.openingTime.split(':').map(Number);
-      const [closeHour, closeMinute] = rest.closingTime.split(':').map(Numebr);
+      const [closeHour, closeMinute] = rest.closingTime.split(':').map(Number);
       
       const open = openHour * 60 + openMinute;
       const close = closeHour*60;
@@ -100,7 +100,7 @@ router.get("/restaurants", async (req, res) => {
       return currentMin >= open && currentMin <= currentMin
     })
     return res.status(200).json({
-      restaurants : openRestaurants,
+      restaurants : data,
     });
   } catch (err) {
     console.error(err);

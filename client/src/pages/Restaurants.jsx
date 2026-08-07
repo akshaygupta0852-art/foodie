@@ -47,11 +47,11 @@ const Restaurants = () => {
               </div>
 
               <span className='text-sm text-gray-500'>
-                {restaurant.cuisine.join(', ')}
+                {restaurant?.cuisine?.join(', ')}
               </span>
               <div className='flex justify-between items-center'>
                 <span className='text-sm'>
-                  {restaurant.deliveryTime} - {restaurant.deliveryTime + 10} min
+                  {restaurant?.deliveryTime} - {restaurant?.deliveryTime + 10} min
                 </span>
               </div>
             </div>

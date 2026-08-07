@@ -2,6 +2,11 @@ import bcrypt from "bcrypt";
 import express from "express";
 import Admin from "../models/Admin.js";
 import jwt from "jsonwebtoken";
+import adminAuth from '../middleware/adminmiddleware.js';
+import Restaurants from '../models/Restaurant.js';
+import Orders from "../models/Orders.js";
+import Foods from "../models/Food.js";
+import Order from "../models/Orders.js";
 
 const router = express.Router();
 
@@ -94,5 +99,76 @@ router.post("/login", async (req, res) => {
     });
   }
 });
+
+// Dashboard data
+
+router.get('/data', adminAuth, async(req, res)=>{
+  try {
+    const adminId = req.user.id;
+    const admin = await Admin.findById(adminId);
+
+    if(!admin){
+      return res.status(404).json({
+        message : 'Admin not found!',
+        type : 'Failed'
+      })
+    }
+
+    const restrauData = await Restaurants.find({
+      admin : adminId
+    })
+
+    const restrauId = restrauData.map((res)=> res._id);
+
+    const foodData = await Foods.find({
+      restaurant : {$in : restrauId}
+    })
+    const orderData = await Order.find({
+      "restaurant.restaurantId" : {
+        $in : restrauId
+      }
+    })
+    console.log(admin, restrauData, foodData);
+    return res.status(200).json({
+      rest : restrauData,
+      admin : admin,
+      foods : foodData,
+      orders : orderData,
+      type : 'Done'
+    })
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message : 'Internal server error!',
+      type : 'Failed'
+    })
+  }
+});
+
+//  Delete restaurant
+
+router.delete('/restaurant/delete', adminAuth, async (req, res)=>{
+  try{
+    const restId = req.query.r;
+    const restaurant = await Restaurants.findByIdAndDelete(restId);
+    const foods = await Foods.deleteMany({restaurant : restId});
+    if(!restaurant){
+      return res.status(404).json({
+        message : "This restaurant is already deleted!",
+        type : 'Failed'
+      })
+    }
+    return res.status(200).json({
+      message : 'Restaurant is successfully deleted!',
+      type : 'Done'
+    })
+  }catch(Err){
+    console.error(Err);
+    return res.status(500).json({
+      message : 'Internal server error!',
+      type : 'Failed'
+    })
+  }
+})
 
 export default router;

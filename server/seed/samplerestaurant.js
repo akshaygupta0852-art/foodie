@@ -1,58 +1,225 @@
-import "dotenv/config";
 import mongoose from "mongoose";
-import Restaurant from "../models/Restaurant.js";
+import dotenv from "dotenv";
+
+import Restaurants from "../models/Restaurant.js";
+
+dotenv.config();
+
+await mongoose.connect('mongodb://localhost:27017/');
+
+const adminId = "6a72c487fc607d590ae8fa00";
 
 const restaurants = [
   {
-    name: "Spice Garden",
-    description: "Authentic Indian food with traditional flavors",
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D",
-    cuisine: ["Indian", "North Indian"],
-    address: "Main Market",
-    rating: 4.5,
-    deliveryTime: 30,
-    isOpen: true,
-    isActive: true,
-  },
-
-  {
     name: "Pizza Palace",
-    description: "Freshly baked pizzas and delicious sides",
-    image: "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
-    cuisine: ["Italian", "Pizza"],
-    address: "Civil Lines",
-    rating: 4.3,
-    deliveryTime: 25,
-    isOpen: true,
-    isActive: true,
+    description: "Fresh wood-fired pizzas with authentic Italian flavors.",
+    ownerName: "Rahul Sharma",
+    address: "12 MG Road",
+    city: "Panna",
+    email: "pizza@cravecart.com",
+    mobile: "9876543210",
+    pincode: "488001",
+    state: "Madhya Pradesh",
+    openingTime: "09:00 AM",
+    closingTime: "10:00 PM",
+    landmark: "Near Bus Stand",
+    admin: adminId,
+    image: "https://picsum.photos/600/400?random=1",
+    cuisines: ["Pizza", "Italian", "Fast Food"],
+    rating: 4.8,
+    followersCount: 520,
+    deliveryTime: 30,
   },
-
   {
-    name: "Dragon Bowl",
-    description: "Delicious Chinese meals and noodles",
-    image: "https://plus.unsplash.com/premium_photo-1670984935550-5ce2e220977a?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzl8fHJlc3RhdXJhbnR8ZW58MHx8MHx8fDA%3D",
-    cuisine: ["Chinese", "Asian"],
+    name: "Burger Junction",
+    description: "Loaded burgers with premium ingredients.",
+    ownerName: "Amit Verma",
     address: "Station Road",
-    rating: 4.2,
+    city: "Panna",
+    email: "burger@cravecart.com",
+    mobile: "9876543211",
+    pincode: "488001",
+    state: "Madhya Pradesh",
+    openingTime: "10:00 AM",
+    closingTime: "11:00 PM",
+    landmark: "Near Railway Station",
+    admin: adminId,
+    image: "https://picsum.photos/600/400?random=2",
+    cuisines: ["Burger", "Fast Food"],
+    rating: 4.6,
+    followersCount: 412,
+    deliveryTime: 25,
+  },
+  {
+    name: "Royal Biryani",
+    description: "Authentic Hyderabadi biryani and kebabs.",
+    ownerName: "Imran Khan",
+    address: "Civil Lines",
+    city: "Satna",
+    email: "biryani@cravecart.com",
+    mobile: "9876543212",
+    pincode: "485001",
+    state: "Madhya Pradesh",
+    openingTime: "11:00 AM",
+    closingTime: "11:30 PM",
+    landmark: "Collector Office",
+    admin: adminId,
+    image: "https://picsum.photos/600/400?random=3",
+    cuisines: ["Biryani", "Mughlai"],
+    rating: 4.9,
+    followersCount: 830,
     deliveryTime: 35,
-    isOpen: true,
-    isActive: true,
+  },
+  {
+    name: "Chinese Wok",
+    description: "Delicious noodles, momos and fried rice.",
+    ownerName: "Rakesh Gupta",
+    address: "Main Market",
+    city: "Katni",
+    email: "wok@cravecart.com",
+    mobile: "9876543213",
+    pincode: "483501",
+    state: "Madhya Pradesh",
+    openingTime: "09:30 AM",
+    closingTime: "10:30 PM",
+    landmark: "City Mall",
+    admin: adminId,
+    image: "https://picsum.photos/600/400?random=4",
+    cuisines: ["Chinese"],
+    rating: 4.5,
+    followersCount: 320,
+    deliveryTime: 28,
+  },
+  {
+    name: "South Spice",
+    description: "Authentic South Indian breakfast and meals.",
+    ownerName: "Suresh Iyer",
+    address: "Temple Road",
+    city: "Jabalpur",
+    email: "south@cravecart.com",
+    mobile: "9876543214",
+    pincode: "482001",
+    state: "Madhya Pradesh",
+    openingTime: "07:00 AM",
+    closingTime: "09:00 PM",
+    landmark: "Hanuman Temple",
+    admin: adminId,
+    image: "https://picsum.photos/600/400?random=5",
+    cuisines: ["South Indian"],
+    rating: 4.7,
+    followersCount: 410,
+    deliveryTime: 20,
+  },
+  {
+    name: "The Punjabi Tadka",
+    description: "North Indian curries and tandoori specials.",
+    ownerName: "Harpreet Singh",
+    address: "GT Road",
+    city: "Rewa",
+    email: "punjabi@cravecart.com",
+    mobile: "9876543215",
+    pincode: "486001",
+    state: "Madhya Pradesh",
+    openingTime: "11:00 AM",
+    closingTime: "11:00 PM",
+    landmark: "Bus Depot",
+    admin: adminId,
+    image: "https://picsum.photos/600/400?random=6",
+    cuisines: ["North Indian"],
+    rating: 4.8,
+    followersCount: 620,
+    deliveryTime: 40,
+  },
+  {
+    name: "Healthy Bowl",
+    description: "Healthy salads, bowls and juices.",
+    ownerName: "Neha Gupta",
+    address: "Green Avenue",
+    city: "Bhopal",
+    email: "healthy@cravecart.com",
+    mobile: "9876543216",
+    pincode: "462001",
+    state: "Madhya Pradesh",
+    openingTime: "08:00 AM",
+    closingTime: "09:00 PM",
+    landmark: "City Park",
+    admin: adminId,
+    image: "https://picsum.photos/600/400?random=7",
+    cuisines: ["Healthy", "Salads"],
+    rating: 4.4,
+    followersCount: 180,
+    deliveryTime: 18,
+  },
+  {
+    name: "Sweet Treats",
+    description: "Cakes, pastries and desserts.",
+    ownerName: "Pooja Jain",
+    address: "Market Square",
+    city: "Indore",
+    email: "sweet@cravecart.com",
+    mobile: "9876543217",
+    pincode: "452001",
+    state: "Madhya Pradesh",
+    openingTime: "09:00 AM",
+    closingTime: "10:00 PM",
+    landmark: "Clock Tower",
+    admin: adminId,
+    image: "https://picsum.photos/600/400?random=8",
+    cuisines: ["Desserts", "Bakery"],
+    rating: 4.9,
+    followersCount: 920,
+    deliveryTime: 22,
+  },
+  {
+    name: "Taco Fiesta",
+    description: "Mexican tacos, burritos and nachos.",
+    ownerName: "Carlos Dsouza",
+    address: "Ring Road",
+    city: "Gwalior",
+    email: "taco@cravecart.com",
+    mobile: "9876543218",
+    pincode: "474001",
+    state: "Madhya Pradesh",
+    openingTime: "10:00 AM",
+    closingTime: "11:00 PM",
+    landmark: "Central Plaza",
+    admin: adminId,
+    image: "https://picsum.photos/600/400?random=9",
+    cuisines: ["Mexican"],
+    rating: 4.5,
+    followersCount: 270,
+    deliveryTime: 32,
+  },
+  {
+    name: "Cafe Brew",
+    description: "Coffee, sandwiches and snacks.",
+    ownerName: "Rohan Mehta",
+    address: "Lake View Road",
+    city: "Bhopal",
+    email: "brew@cravecart.com",
+    mobile: "9876543219",
+    pincode: "462002",
+    state: "Madhya Pradesh",
+    openingTime: "08:00 AM",
+    closingTime: "10:00 PM",
+    landmark: "Upper Lake",
+    admin: adminId,
+    image: "https://picsum.photos/600/400?random=10",
+    cuisines: ["Cafe", "Beverages"],
+    rating: 4.6,
+    followersCount: 360,
+    deliveryTime: 15,
   },
 ];
 
-async function seedRestaurants() {
-  try {
-    await mongoose.connect(process.env.DBURI);
+try {
+  await Restaurants.deleteMany({ admin: adminId });
 
-    await Restaurant.deleteMany({});
-    await Restaurant.insertMany(restaurants);
+  await Restaurants.insertMany(restaurants);
 
-    console.log("Restaurants added successfully");
-  } catch (error) {
-    console.error(error);
-  } finally {
-    await mongoose.connection.close();
-  }
+  console.log("✅ Sample restaurants inserted successfully.");
+} catch (error) {
+  console.error(error);
+} finally {
+  await mongoose.disconnect();
 }
-
-seedRestaurants();

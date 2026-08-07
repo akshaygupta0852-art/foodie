@@ -1,34 +1,34 @@
 import { useState } from 'react'
-import AdminNavbar from '../components/AdminNavbar'
-import Options from '../components/Dashboard/Options'
-import Profile from '../components/Dashboard/Profile'
+import DashboardActivity from '../components/Dashboard/DashboardActivity'
+import DashboardHeader from '../components/Dashboard/DashboardHeader'
+import DashboardSidebar from '../components/Dashboard/DashboardSidebar'
+import DashboardStats from '../components/Dashboard/DashboardStats'
+import RecentOrders from '../components/Dashboard/RecentOrders'
+import QuickActions from '../components/Dashboard/QuickActions'
+import DashboardNavbar from '../components/Dashboard/DashBoardNavbar'
 
 
 const Dashboard = () => {
-    const [fnc, setFnc] = useState('Add Shop');
+    const [isOpen, setIsOpen] = useState(false)
     return (
-        <div className='min-h-screen h-screen min-w-screen w-screen'>
-            <header className='pt-2'>
-                <AdminNavbar />
-            </header>
-            <div className='flex w-full px-(--space-sm) gap-3 py-(--space-md)'>
+        <>
+            <div className="flex">
+                <main>
+                    <DashboardNavbar setIsOpen={setIsOpen} />
+                    <DashboardHeader />
+                    <DashboardStats />
+                    <DashboardSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-                <main className='max-w-1/2 flex-col flex gap-4 max-lg:max-w-full'>
-                    <section>
-                        <Profile />
-                    </section>
-                    <section>
-                        <Options setFnc={setFnc} fnc={fnc} />
-                    </section>
-                </main>
-                <aside className='shadow-2xl px-(--space-lg) py-(--space-md) rounded-2xl flex-1 max-lg:hidden'>
-                    <span>{fnc}</span>
-                    <div className='overflow-auto'>
-                        
+                    <div className="grid">
+                        <RecentOrders />
                     </div>
-                </aside>
+
+                    <div className="grid">
+                        <QuickActions />
+                    </div>
+                </main>
             </div>
-        </div>
+        </>
     )
 }
 
