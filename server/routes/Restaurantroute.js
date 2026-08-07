@@ -15,66 +15,66 @@ router.post(
   adminAuth,
   upload.single("image"),
   async (req, res) => {
-    try{const {
-      name,
-      ownerName,
-      email,
-      mobile,
-      address,
-      city,
-      state,
-      pincode,
-      landmark,
-      openingTime,
-      closingTime,
-      description,
-    } = req.body;
-console.log('strat')
-    const cuisines = Array.isArray(req.body.cuisines)
-      ? req.body.cuisines
-      : [req.body.cuisines];
-    const adminId = req.user.id;
-    console.log(adminId)
-    const findAdmin = await Restaurants.findById(adminId);
-    if (findAdmin) {
-      return res.status(400).json({
-        message: "Admin only allows to open single shop!",
-        type: "Failed",
-      });
-    }
-    const result = await uploadCloudinary(
-      req.file.buffer,
-      "cravecart",
-    );
-    console.log(result);
-    const newRest = await Restaurants.create({
-      name,
-      ownerName,
-      email,
-      mobile,
-      openingTime,
-      closingTime,
-      address,
-      city,
-      state,
-      pincode,
-      landmark,
-      cuisines,
-      description,
-      admin: adminId,
-      image: result.secure_url,
-    });
+    try {
+      const {
+        name,
+        ownerName,
+        email,
+        mobile,
+        address,
+        city,
+        state,
+        pincode,
+        landmark,
+        openingTime,
+        closingTime,
+        description,
+      } = req.body;
 
-    return res.status(200).json({
-        message : "Restaurant added successfully!",
-        type : 'Done',
-        details : newRest
-    });}
-    catch(err){
-        console.error(err);
-        return res.status(500).json({
-            mesaage : "Internal server error!"
-        })
+      const cuisines = Array.isArray(req.body.cuisines)
+        ? req.body.cuisines
+        : [req.body.cuisines];
+      const adminId = req.user.id;
+      const findAdmin = await Restaurants.findById(adminId);
+      if (findAdmin) {
+        return res.status(400).json({
+          message: "Admin only allows to open single shop!",
+          type: "Failed",
+        });
+      }
+
+      const result = await uploadCloudinary(
+        req.file.buffer,
+        "restaurants",
+      );
+      const newRest = await Restaurants.create({
+        name,
+        ownerName,
+        email,
+        mobile,
+        openingTime,
+        closingTime,
+        address,
+        city,
+        state,
+        pincode,
+        landmark,
+        cuisines,
+        description,
+        admin: adminId,
+        image: result.secure_url,
+      });
+
+      return res.status(200).json({
+        message: "Restaurant added successfully!",
+        type: "Done",
+        details: newRest,
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({
+        mesaage: "Internal server error!",
+      });
     }
   },
 );
