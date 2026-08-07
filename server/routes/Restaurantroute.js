@@ -35,13 +35,6 @@ router.post(
         ? req.body.cuisines
         : [req.body.cuisines];
       const adminId = req.user.id;
-      const findAdmin = await Restaurants.findById(adminId);
-      if (findAdmin) {
-        return res.status(400).json({
-          message: "Admin only allows to open single shop!",
-          type: "Failed",
-        });
-      }
       const toMinutes = (time) => {
         const [hours, minutes] = time.split(":").map(Number);
         return hours * 60 + minutes;
