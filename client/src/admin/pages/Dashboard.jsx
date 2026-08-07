@@ -5,7 +5,7 @@ import DashboardSidebar from '../components/Dashboard/DashboardSidebar'
 import DashboardStats from '../components/Dashboard/DashboardStats'
 import RecentOrders from '../components/Dashboard/RecentOrders'
 import QuickActions from '../components/Dashboard/QuickActions'
-import DashboardNavbar from '../components/Dashboard/DashBoardNavbar'
+import DashboardNavbar from '../components/Dashboard/DashboardNavbar.jsx'
 
 
 const Dashboard = () => {

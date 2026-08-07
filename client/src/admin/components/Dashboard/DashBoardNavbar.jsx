@@ -7,10 +7,6 @@ import {
 import logo from '../../../assets/images/logo.png'
 
 const DashboardNavbar = ({
-  admin,
-  onMenuClick,
-  onSearch,
-  notificationCount = 0,
   setIsOpen
 }) => {
   return (

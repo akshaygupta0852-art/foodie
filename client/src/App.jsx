@@ -8,6 +8,7 @@ import Loader from './components/common/Loader';
 import Dashboard from './admin/pages/Dashboard';
 import AdminProtectedRoute from './routes/AdminProtectedRoute';
 import ManageShops from './admin/pages/ManageShop';
+import Addfood from './admin/pages/Addfood';
 const Home = lazy(() => import("./pages/Home"));
 const Restaurants = lazy(() => import("./pages/Restaurants"));
 const Portal = lazy(() => import("./pages/Portal"));
@@ -59,6 +60,7 @@ const App = () => {
           <Route element={<AdminProtectedRoute />}>
             <Route path='/admin/restaurants' element={<ManageShops />} />
           </Route>
+          <Route path='/admin/foods/add' element={<Addfood />} />
         </Routes>
       </Suspense>
     </div>
