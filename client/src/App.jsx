@@ -23,7 +23,8 @@ const Order = lazy(() => import('./pages/Order'));
 const OrderSuccess = lazy(() => import('./pages/Successful'));
 const OrderFailed = lazy(() => import('./pages/OrderFailed'));
 const AdminLogin = lazy(() => import('./admin/pages/AdminLogin'));
-const AddShop = lazy(() => import('./admin/pages/Addshop'))
+const AddShop = lazy(() => import('./admin/pages/Addshop'));
+const ManageFoods = lazy(() => import('./admin/pages/Foods'));
 const App = () => {
   const [itemCount, setItemCount] = useState(0);
   return (
@@ -60,7 +61,12 @@ const App = () => {
           <Route element={<AdminProtectedRoute />}>
             <Route path='/admin/restaurants' element={<ManageShops />} />
           </Route>
-          <Route path='/admin/foods/add' element={<Addfood />} />
+          <Route element={<AdminProtectedRoute />}>
+            <Route path='/admin/foods/add' element={<Addfood />} />
+          </Route>
+          <Route element={<AdminProtectedRoute />}>
+            <Route path='/admin/foods' element={<ManageFoods />} />
+          </Route>
         </Routes>
       </Suspense>
     </div>

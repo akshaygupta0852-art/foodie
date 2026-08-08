@@ -40,7 +40,7 @@ const QuickActions = () => {
             description: "View all foods",
             icon: <FaBurger size={26} />,
             color: "bg-pink-50 text-pink-600",
-            onClick: () => navigate("/admin/categories"),
+            onClick: () => navigate("/admin/foods"),
         },
         {
             title: "Manage Orders",

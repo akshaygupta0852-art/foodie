@@ -124,7 +124,7 @@ router.get("/data", adminAuth, async (req, res) => {
 
     const foodData = await Foods.find({
       restaurant: { $in: restrauId },
-    });
+    }).populate('restaurant');
     const orderData = await Order.find({
       "restaurant.restaurantId": {
         $in: restrauId,
