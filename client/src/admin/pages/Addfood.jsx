@@ -1,5 +1,9 @@
 import { useState } from "react";
 import FoodForm from "../components/Addfood/FoodForm.jsx";
+import { addFood } from "../../routes/Foodsroute.js";
+import useDashboard from "../hooks/useDashboard.jsx";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   name: "",
@@ -30,22 +34,8 @@ const AddFood = () => {
   const [formData, setFormData] = useState(initialState);
   const [imagePreview, setImagePreview] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // Replace with API call
-  const restaurants = [
-    {
-      _id: "1",
-      name: "Pizza Palace",
-    },
-    {
-      _id: "2",
-      name: "Burger Junction",
-    },
-    {
-      _id: "3",
-      name: "Royal Biryani",
-    },
-  ];
+  const navigate = useNavigate()
+  const { restaurants } = useDashboard();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -77,10 +67,9 @@ const AddFood = () => {
         data.append(key, value);
       });
 
-      // Example
-      // await addFood(data);
+      await addFood(data);
 
-      console.log(formData);
+      // console.log(formData);
 
       alert("Food Added Successfully");
 
@@ -95,15 +84,20 @@ const AddFood = () => {
   return (
     <section className="min-h-screen bg-gray-100 p-6">
       <div className="mx-auto max-w-5xl">
+        <div className="flex gap-2 items-center mb-8">
+          <ArrowLeft className="hover:bg-gray-200 transition-all duration-100 cursor-pointer" onClick={()=>{
+            navigate(-1)
+          }} />
+          <div>
 
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">
-            Add Food
-          </h1>
+            <h1 className="text-3xl font-bold max-lg:text-lg">
+              Add Food
+            </h1>
 
-          <p className="mt-2 text-gray-500">
-            Create a new food item for your restaurant.
-          </p>
+            <p className="max-lg:text-sm text-gray-500">
+              Create a new food item for your restaurant.
+            </p>
+          </div>
         </div>
 
         <FoodForm
