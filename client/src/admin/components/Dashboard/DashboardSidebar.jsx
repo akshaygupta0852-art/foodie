@@ -14,6 +14,7 @@ import {
 import { NavLink } from "react-router-dom";
 import { getDashboardData } from "../../services/dashboardAPI";
 import logo from '../../../assets/images/logo.png'
+import { House, HouseHeart, Store } from "lucide-react";
 
 const DashboardSidebar = ({ isOpen, setIsOpen }) => {
   const data = async ()=>{
@@ -32,8 +33,13 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
     },
     {
       name: "Restaurants",
-      icon: <FiHome size={20} />,
+      icon: <Store size={20} />,
       path: "/admin/restaurants",
+    },
+    {
+      name: "Go to Home",
+      icon: <House size={20} />,
+      path: "/",
     },
     {
       name: "Foods",
@@ -77,13 +83,14 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
 
       <aside
         className={`
-          fixed
+
           right-0
           top-0
           z-50
           flex
           h-screen
-          w-72
+          w-80
+          max-lg:fixed
           flex-col
           bg-white
           border-r

@@ -13,12 +13,12 @@ const Dashboard = () => {
     return (
         <>
             <div className="flex">
-                <main>
-                    <DashboardNavbar setIsOpen={setIsOpen} />
-                    <DashboardHeader />
-                    <DashboardStats />
-                    <DashboardSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-
+                <main className='flex-1'>
+                    <div>
+                        <DashboardNavbar setIsOpen={setIsOpen} />
+                        <DashboardHeader />
+                        <DashboardStats />
+                    </div>
                     <div className="grid">
                         <RecentOrders />
                     </div>
@@ -27,6 +27,8 @@ const Dashboard = () => {
                         <QuickActions />
                     </div>
                 </main>
+                <DashboardSidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+
             </div>
         </>
     )
