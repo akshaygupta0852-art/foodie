@@ -1,18 +1,18 @@
 function checkOrderStatus(st) {
     if (st === 'placed') {
-        return <div className='px-4 py-1 bg-gray-300 text-gray-500 rounded-2xl'>{st}</div>
+        return <div className='px-4 max-lg:px-2 py-1 bg-gray-300 text-gray-500 rounded-2xl'>{st}</div>
     }
     else if (st === 'cancelled') {
-        return <div className='px-4 py-1 bg-red-200 text-red-500 rounded-2xl'>{st}</div>
+        return <div className='px-4 max-lg:px-2 py-1 bg-red-200 text-red-500 rounded-2xl'>{st}</div>
     }
     else if (st === 'confirmed') {
-        return <div className='px-4 py-1 bg-red-200 text-red-500 rounded-2xl'>{st}</div>
+        return <div className='px-4 max-lg:px-2 py-1 bg-red-200 text-red-500 rounded-2xl'>{st}</div>
     }
     else if (st === 'out-for-delivery') {
-        return <div className='px-4 py-1 bg-red-200 text-red-500 rounded-2xl'>{st}</div>
+        return <div className='px-4 max-lg:px-2 py-1 bg-red-200 text-red-500 rounded-2xl'>{st}</div>
     }
     else if(st === 'delivered'){
-        return <div className='px-4 py-1 bg-green-200 text-green-500 rounded-2xl'>{st}</div>
+        return <div className='px-4 max-lg:px-2 py-1 bg-green-200 text-green-500 rounded-2xl'>{st}</div>
     }
 }
 const OrderCard = ({ order }) => {
@@ -20,8 +20,8 @@ const OrderCard = ({ order }) => {
         <div className='shadow-2xl border border-gray-400 rounded-2xl px-4 py-3'>
             <span>{order?.createdAt}</span>
             <div className='flex items-center justify-between'>
-                <h1 className='text-xl font-semibold'>#{order._id}</h1>
-                <h1 className='text-xl font-semibold'>{order?.restaurant?.name}</h1>
+                <h1 className='text-xl max-lg:text-sm font-semibold'>#{order._id}</h1>
+                <h1 className='text-xl max-lg:text-sm font-semibold'>{order?.restaurant?.name}</h1>
                 {checkOrderStatus(order?.orderStatus)}
             </div>
             <div className='mt-2'>

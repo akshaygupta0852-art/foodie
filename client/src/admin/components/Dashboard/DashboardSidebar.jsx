@@ -88,6 +88,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
           top-0
           z-50
           flex
+          sticky
           h-screen
           w-80
           max-lg:fixed
