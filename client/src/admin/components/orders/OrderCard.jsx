@@ -11,10 +11,92 @@ function checkOrderStatus(st) {
     else if (st === 'out-for-delivery') {
         return <div className='px-4 max-lg:px-2 py-1 bg-red-200 text-red-500 rounded-2xl'>{st}</div>
     }
-    else if(st === 'delivered'){
+    else if (st === 'delivered') {
         return <div className='px-4 max-lg:px-2 py-1 bg-green-200 text-green-500 rounded-2xl'>{st}</div>
     }
 }
+const getOrderActions = (status) => {
+    switch (status) {
+        case "placed":
+            return (
+                <>
+                    <button
+                        onClick={() => confirmOrder()}
+                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-white cursor-pointer bg-(--primary-dark) hover:bg-(--primary-dark) transition-all duration-150"
+                    >
+                        Confirm
+                    </button>
+
+                    <button
+                        onClick={() => cancelOrder()}
+                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-(--primary-dark) cursor-pointer border border-(--primary) transition-all duration-150"
+                    >
+                        Cancel
+                    </button>
+                </>
+            );
+
+        case "confirmed":
+            return (
+                <>
+                    <button
+                        onClick={() => setPreparing()}
+                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-white cursor-pointer bg-(--primary-dark) transition-all duration-150"
+                    >
+                        Start Preparing
+                    </button>
+
+                    <button
+                        onClick={() => cancelOrder()}
+                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-(--primary-dark) cursor-pointer border border-(--primary) transition-all duration-150"
+                    >
+                        Cancel
+                    </button>
+                </>
+            );
+
+        case "preparing":
+            return (
+                <>
+                    <button
+                        onClick={() => outForDelivery()}
+                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-white cursor-pointer bg-(--primary-dark) transition-all duration-150"
+                    >
+                        Out for Delivery
+                    </button>
+                </>
+            );
+
+        case "out-for-delivery":
+            return (
+                <>
+                    <button
+                        onClick={() => markDelivered()}
+                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-white cursor-pointer bg-(--primary-dark) transition-all duration-150"
+                    >
+                        Mark Delivered
+                    </button>
+                </>
+            );
+
+        case "delivered":
+            return (
+                <span className="text-green-600 font-semibold">
+                    Delivered
+                </span>
+            );
+
+        case "cancelled":
+            return (
+                <span className="text-red-500 font-semibold">
+                    Cancelled
+                </span>
+            );
+
+        default:
+            return null;
+    }
+};
 const OrderCard = ({ order }) => {
     return (
         <div className='shadow-2xl border border-gray-400 rounded-2xl px-4 py-3'>
@@ -54,8 +136,7 @@ const OrderCard = ({ order }) => {
                 </tbody>
             </table>
             <div className='flex mt-10 gap-5 justify-end'>
-                <button className='max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-white cursor-pointer bg-(--primary-dark) hover:bg-(--primary-dark) transition-all duration-150'>Confirm</button>
-                <button className='max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-(--primary-dark) cursor-pointer border border-(--primary) transition-all duration-150'>Cancel</button>
+                {getOrderActions(order?.orderStatus)}
             </div>
         </div>
     )
