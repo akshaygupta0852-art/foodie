@@ -11,7 +11,7 @@ import {
   FiLogOut,
   FiX,
 } from "react-icons/fi";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate} from "react-router-dom";
 import { getDashboardData } from "../../services/dashboardAPI";
 import logo from '../../../assets/images/logo.png'
 import { House, HouseHeart, Store } from "lucide-react";
@@ -21,6 +21,7 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
     const result = await getDashboardData();
     console.log(result);
   }
+  const navigate = useNavigate();
   useEffect(() => {
       data();
   }, [])
@@ -168,6 +169,10 @@ const DashboardSidebar = ({ isOpen, setIsOpen }) => {
               transition
               hover:bg-red-50
             "
+            onClick={()=>{
+              localStorage.removeItem('Admintoken');
+              navigate('/admin/portal');
+            }}
           >
             <FiLogOut size={20} />
             Logout
