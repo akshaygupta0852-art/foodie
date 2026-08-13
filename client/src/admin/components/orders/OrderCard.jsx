@@ -18,10 +18,12 @@ function checkOrderStatus(st) {
 const OrderCard = ({ order }) => {
     return (
         <div className='shadow-2xl border border-gray-400 rounded-2xl px-4 py-3'>
-            <span>{order?.createdAt}</span>
+            <div className="flex justify-between mb-4">
+                <h1 className='text-xl max-lg:text-lg font-semibold'>{order?.restaurant?.name}</h1>
+                <span>{order?.createdAt}</span>
+            </div>
             <div className='flex items-center justify-between'>
-                <h1 className='text-xl max-lg:text-sm font-semibold'>#{order._id}</h1>
-                <h1 className='text-xl max-lg:text-sm font-semibold'>{order?.restaurant?.name}</h1>
+                <h1 className='text-xl max-lg:text-lg font-semibold'>#{order._id}</h1>
                 {checkOrderStatus(order?.orderStatus)}
             </div>
             <div className='mt-2'>
