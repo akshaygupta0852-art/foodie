@@ -1,35 +1,55 @@
-function checkOrderStatus(st) {
-    if (st === 'placed') {
-        return <div className='px-4 max-lg:px-2 py-1 bg-gray-300 text-gray-500 rounded-2xl'>{st}</div>
-    }
-    else if (st === 'cancelled') {
-        return <div className='px-4 max-lg:px-2 py-1 bg-red-200 text-red-500 rounded-2xl'>{st}</div>
-    }
-    else if (st === 'confirmed') {
-        return <div className='px-4 max-lg:px-2 py-1 bg-red-200 text-red-500 rounded-2xl'>{st}</div>
-    }
-    else if (st === 'out-for-delivery') {
-        return <div className='px-4 max-lg:px-2 py-1 bg-red-200 text-red-500 rounded-2xl'>{st}</div>
-    }
-    else if (st === 'delivered') {
-        return <div className='px-4 max-lg:px-2 py-1 bg-green-200 text-green-500 rounded-2xl'>{st}</div>
-    }
-}
+const checkOrderStatus = (st) => {
+    const styles = {
+        placed: "bg-amber-100 text-amber-700 border-amber-200",
+        confirmed: "bg-blue-100 text-blue-700 border-blue-200",
+        preparing: "bg-purple-100 text-purple-700 border-purple-200",
+        "out-for-delivery": "bg-indigo-100 text-indigo-700 border-indigo-200",
+        delivered: "bg-green-100 text-green-700 border-green-200",
+        cancelled: "bg-red-100 text-red-700 border-red-200",
+    };
+
+    return (
+        <span
+            className={`
+                px-3 py-1.5
+                max-lg:px-2
+                rounded-full
+                border
+                text-sm
+                font-medium
+                capitalize
+                whitespace-nowrap
+                ${styles[st] || "bg-gray-100 text-gray-600 border-gray-200"}
+            `}
+        >
+            {st?.replaceAll("-", " ")}
+        </span>
+    );
+};
+
+
 const getOrderActions = (status) => {
+    const primaryButton =
+        "flex-1 lg:flex-none lg:w-44 py-2.5 px-5 rounded-xl text-sm font-medium text-white bg-(--primary-dark) hover:opacity-90 active:scale-[0.98] transition-all duration-150";
+
+    const secondaryButton =
+        "flex-1 lg:flex-none lg:w-32 py-2.5 px-5 rounded-xl text-sm font-medium text-(--primary-dark) border border-(--primary) hover:bg-orange-50 active:scale-[0.98] transition-all duration-150";
+
     switch (status) {
+
         case "placed":
             return (
                 <>
                     <button
                         onClick={() => confirmOrder()}
-                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-white cursor-pointer bg-(--primary-dark) hover:bg-(--primary-dark) transition-all duration-150"
+                        className={primaryButton}
                     >
-                        Confirm
+                        Confirm Order
                     </button>
 
                     <button
                         onClick={() => cancelOrder()}
-                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-(--primary-dark) cursor-pointer border border-(--primary) transition-all duration-150"
+                        className={secondaryButton}
                     >
                         Cancel
                     </button>
@@ -38,58 +58,45 @@ const getOrderActions = (status) => {
 
         case "confirmed":
             return (
-                <>
-                    <button
-                        onClick={() => setPreparing()}
-                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-white cursor-pointer bg-(--primary-dark) transition-all duration-150"
-                    >
-                        Start Preparing
-                    </button>
-
-                    <button
-                        onClick={() => cancelOrder()}
-                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-(--primary-dark) cursor-pointer border border-(--primary) transition-all duration-150"
-                    >
-                        Cancel
-                    </button>
-                </>
+                <button
+                    onClick={() => setPreparing()}
+                    className={primaryButton}
+                >
+                    Start Preparing
+                </button>
             );
 
         case "preparing":
             return (
-                <>
-                    <button
-                        onClick={() => outForDelivery()}
-                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-white cursor-pointer bg-(--primary-dark) transition-all duration-150"
-                    >
-                        Out for Delivery
-                    </button>
-                </>
+                <button
+                    onClick={() => outForDelivery()}
+                    className={primaryButton}
+                >
+                    Out for Delivery
+                </button>
             );
 
         case "out-for-delivery":
             return (
-                <>
-                    <button
-                        onClick={() => markDelivered()}
-                        className="max-lg:w-1/2 w-40 py-2 text-lg rounded-full text-white cursor-pointer bg-(--primary-dark) transition-all duration-150"
-                    >
-                        Mark Delivered
-                    </button>
-                </>
+                <button
+                    onClick={() => markDelivered()}
+                    className={primaryButton}
+                >
+                    Mark Delivered
+                </button>
             );
 
         case "delivered":
             return (
-                <span className="text-green-600 font-semibold">
-                    Delivered
+                <span className="text-sm font-medium text-green-600">
+                    ✓ Order Delivered
                 </span>
             );
 
         case "cancelled":
             return (
-                <span className="text-red-500 font-semibold">
-                    Cancelled
+                <span className="text-sm font-medium text-red-500">
+                    Order Cancelled
                 </span>
             );
 
@@ -97,49 +104,347 @@ const getOrderActions = (status) => {
             return null;
     }
 };
-const OrderCard = ({ order }) => {
-    return (
-        <div className='shadow-2xl border border-gray-400 rounded-2xl px-4 py-3'>
-            <div className="flex justify-between mb-4">
-                <h1 className='text-xl max-lg:text-lg font-semibold'>{order?.restaurant?.name}</h1>
-                <span>{order?.createdAt}</span>
-            </div>
-            <div className='flex items-center justify-between'>
-                <h1 className='text-xl max-lg:text-lg font-semibold'>#{order._id}</h1>
-                {checkOrderStatus(order?.orderStatus)}
-            </div>
-            <div className='mt-2'>
-                <h2 className='text-lg font-medium'>Akshay Gupta, 9522867545</h2>
-                <span>NH39, Panna to Satna road, Panna, Madhya Pradesh 488001</span>
-            </div>
-            <div className='h-px w-full bg-gray-400 mt-4' />
-            <table className='w-full mt-4'>
-                <thead>
-                    <tr>
-                        <th className='text-left'>S. no.</th>
-                        <th className='text-left'>Product</th>
-                        <th className='text-left'>Quantity</th>
-                        <th className='text-left'>Price</th>
-                        <th className='text-left'>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {order?.items?.map((item, idx) => {
-                        return <tr key={idx}>
-                            <td>{idx + 1}</td>
-                            <td>{item?.name}</td>
-                            <td>{item?.quantity}</td>
-                            <td>{item?.price}</td>
-                            <td>{item?.price * item?.quantity}</td>
-                        </tr>
-                    })}
-                </tbody>
-            </table>
-            <div className='flex mt-10 gap-5 justify-end'>
-                {getOrderActions(order?.orderStatus)}
-            </div>
-        </div>
-    )
-}
 
-export default OrderCard
+
+const OrderCard = ({ order }) => {
+
+    const formatDate = (date) => {
+        if (!date) return "";
+
+        return new Date(date).toLocaleString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+        });
+    };
+
+    return (
+        <div className="
+            bg-white
+            border
+            border-gray-200
+            rounded-2xl
+            shadow-sm
+            hover:shadow-md
+            transition-shadow
+            duration-200
+            overflow-hidden
+        ">
+
+            {/* ================= HEADER ================= */}
+
+            <div className="
+                px-5
+                py-4
+                border-b
+                border-gray-200
+                flex
+                items-center
+                justify-between
+                gap-4
+                max-md:flex-col
+                max-md:items-start
+            ">
+
+                <div>
+
+                    <h2 className="
+                        text-lg
+                        font-semibold
+                        text-gray-800
+                    ">
+                        {order?.restaurant?.name}
+                    </h2>
+
+                    <div className="
+                        flex
+                        items-center
+                        gap-2
+                        mt-1
+                        text-sm
+                        text-gray-500
+                    ">
+                        <span>Order</span>
+
+                        <span className="font-medium text-gray-700">
+                            #{order?._id}
+                        </span>
+                    </div>
+
+                </div>
+
+                <div className="
+                    flex
+                    flex-col
+                    items-end
+                    gap-2
+                    max-md:items-start
+                ">
+
+                    {checkOrderStatus(order?.orderStatus)}
+
+                    <span className="text-xs text-gray-400">
+                        {formatDate(order?.createdAt)}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            {/* ================= CUSTOMER ================= */}
+
+            <div className="px-5 py-4">
+
+                <div className="
+                    bg-gray-50
+                    rounded-xl
+                    p-4
+                    border
+                    border-gray-100
+                ">
+
+                    <div className="flex items-start gap-3">
+
+                        <div className="
+                            w-10
+                            h-10
+                            rounded-full
+                            bg-orange-100
+                            text-orange-600
+                            flex
+                            items-center
+                            justify-center
+                            font-semibold
+                            shrink-0
+                        ">
+                            {order?.address?.username?.charAt(0)}
+                        </div>
+
+                        <div className="min-w-0">
+
+                            <h3 className="
+                                font-semibold
+                                text-gray-800
+                            ">
+                                {order?.address?.username}
+                            </h3>
+
+                            <p className="
+                                text-sm
+                                text-gray-500
+                                mt-0.5
+                            ">
+                                {order?.address?.mobile}
+                            </p>
+
+                            <p className="
+                                text-sm
+                                text-gray-600
+                                mt-2
+                                leading-relaxed
+                            ">
+                                {order?.address?.fullAddress}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {/* ================= ITEMS ================= */}
+
+            <div className="px-5">
+
+                <div className="
+                    border
+                    border-gray-200
+                    rounded-xl
+                    overflow-hidden
+                ">
+
+                    {/* Desktop Header */}
+
+                    <div className="
+                        hidden
+                        md:grid
+                        grid-cols-[50px_1fr_100px_100px_100px]
+                        bg-gray-50
+                        px-4
+                        py-3
+                        text-xs
+                        font-semibold
+                        text-gray-500
+                        uppercase
+                    ">
+                        <span>#</span>
+                        <span>Item</span>
+                        <span>Qty</span>
+                        <span>Price</span>
+                        <span>Total</span>
+                    </div>
+
+
+                    {order?.items?.map((item, idx) => (
+
+                        <div
+                            key={idx}
+                            className="
+                                grid
+                                grid-cols-[40px_1fr_70px_80px_90px]
+                                max-md:grid-cols-[30px_1fr_auto]
+                                items-center
+                                px-4
+                                py-3
+                                border-t
+                                border-gray-100
+                                text-sm
+                            "
+                        >
+
+                            <span className="text-gray-400">
+                                {idx + 1}
+                            </span>
+
+                            <div>
+
+                                <p className="
+                                    font-medium
+                                    text-gray-800
+                                ">
+                                    {item?.name}
+                                </p>
+
+                                <p className="
+                                    text-xs
+                                    text-gray-400
+                                    mt-0.5
+                                ">
+                                    ₹{item?.price} each
+                                </p>
+
+                            </div>
+
+                            <span className="
+                                text-gray-600
+                                text-center
+                            ">
+                                ×{item?.quantity}
+                            </span>
+
+                            <span className="
+                                text-gray-600
+                                max-md:hidden
+                            ">
+                                ₹{item?.price}
+                            </span>
+
+                            <span className="
+                                font-medium
+                                text-gray-800
+                                text-right
+                            ">
+                                ₹{item?.price * item?.quantity}
+                            </span>
+
+                        </div>
+
+                    ))}
+
+                </div>
+
+            </div>
+
+
+            {/* ================= TOTAL ================= */}
+
+            <div className="
+                px-5
+                py-4
+                flex
+                justify-end
+            ">
+
+                <div className="
+                    w-64
+                    space-y-2
+                ">
+
+                    <div className="
+                        flex
+                        justify-between
+                        text-sm
+                        text-gray-500
+                    ">
+                        <span>Items</span>
+
+                        <span>
+                            {order?.items?.reduce(
+                                (total, item) =>
+                                    total + item.quantity,
+                                0
+                            )}
+                        </span>
+                    </div>
+
+                    <div className="
+                        h-px
+                        bg-gray-200
+                    "/>
+
+                    <div className="
+                        flex
+                        justify-between
+                        items-center
+                    ">
+                        <span className="
+                            font-semibold
+                            text-gray-800
+                        ">
+                            Total Amount
+                        </span>
+
+                        <span className="
+                            text-xl
+                            font-bold
+                            text-(--primary-dark)
+                        ">
+                            ₹{order?.totalPrice || order?.totalAmount}
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {/* ================= ACTIONS ================= */}
+
+            <div className="
+                px-5
+                py-4
+                bg-gray-50
+                border-t
+                border-gray-200
+                flex
+                justify-end
+                gap-3
+                max-md:justify-stretch
+            ">
+
+                {getOrderActions(order?.orderStatus)}
+
+            </div>
+
+        </div>
+    );
+};
+
+export default OrderCard;
