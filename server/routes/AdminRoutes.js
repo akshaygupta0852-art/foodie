@@ -4,7 +4,6 @@ import Admin from "../models/Admin.js";
 import jwt from "jsonwebtoken";
 import adminAuth from "../middleware/adminmiddleware.js";
 import Restaurants from "../models/Restaurant.js";
-import Orders from "../models/Orders.js";
 import Foods from "../models/Food.js";
 import Order from "../models/Orders.js";
 import upload from "../middleware/multer.js";
@@ -216,5 +215,28 @@ router.post(
     }
   });
 
+// confirm order route
+
+router.patch('/admin/orders/:orderId', adminAuth, (req, res)=>{
+  try {
+    const orderId = req.params.orderId;
+    const status = req.query.status;
+    const order = Order.findByIdAndUpdate(orderId, {
+      orderStatus : status
+    },{
+      new : true
+    });
+    return res.status(200).json({
+      message : "Order status updated successfully",
+      type : "Done"
+    })
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message : "Internal server error!",
+      type : 'Failed'
+    })
+  }
+})
 
 export default router;

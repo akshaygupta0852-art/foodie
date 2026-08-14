@@ -28,7 +28,7 @@ const checkOrderStatus = (st) => {
 };
 
 
-const getOrderActions = (status) => {
+const getOrderActions = (id, status) => {
     const primaryButton =
         "flex-1 lg:flex-none lg:w-44 py-2.5 px-5 rounded-xl text-sm font-medium text-white bg-(--primary-dark) hover:opacity-90 active:scale-[0.98] transition-all duration-150";
 
@@ -41,7 +41,7 @@ const getOrderActions = (status) => {
             return (
                 <>
                     <button
-                        onClick={() => confirmOrder()}
+                        onClick={() => {}}
                         className={primaryButton}
                     >
                         Confirm Order
@@ -439,7 +439,7 @@ const OrderCard = ({ order }) => {
                 max-md:justify-stretch
             ">
 
-                {getOrderActions(order?.orderStatus)}
+                {getOrderActions(order?._id, order?.orderStatus)}
 
             </div>
 
