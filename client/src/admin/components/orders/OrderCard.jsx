@@ -1,3 +1,5 @@
+import { changeOrderStatus } from "../../services/dashboardAPI";
+
 const checkOrderStatus = (st) => {
     const styles = {
         placed: "bg-amber-100 text-amber-700 border-amber-200",
@@ -41,14 +43,18 @@ const getOrderActions = (id, status) => {
             return (
                 <>
                     <button
-                        onClick={() => {}}
+                        onClick={() => {
+                            changeOrderStatus(order?._id, "confirmed")
+                        }}
                         className={primaryButton}
                     >
                         Confirm Order
                     </button>
 
                     <button
-                        onClick={() => cancelOrder()}
+                        onClick={() => {
+                            changeOrderStatus(order?._id, "cancelled")
+                        }}
                         className={secondaryButton}
                     >
                         Cancel
@@ -59,7 +65,10 @@ const getOrderActions = (id, status) => {
         case "confirmed":
             return (
                 <button
-                    onClick={() => setPreparing()}
+                    onClick={() => {
+                        changeOrderStatus(order?._id, "preparing")
+
+                    }}
                     className={primaryButton}
                 >
                     Start Preparing
@@ -69,7 +78,9 @@ const getOrderActions = (id, status) => {
         case "preparing":
             return (
                 <button
-                    onClick={() => outForDelivery()}
+                    onClick={() => {
+                        changeOrderStatus(order?._id, "out-for-delivery")
+                    }}
                     className={primaryButton}
                 >
                     Out for Delivery
@@ -79,7 +90,9 @@ const getOrderActions = (id, status) => {
         case "out-for-delivery":
             return (
                 <button
-                    onClick={() => markDelivered()}
+                    onClick={() => {
+                        changeOrderStatus(order?._id, "delivered")
+                    }}
                     className={primaryButton}
                 >
                     Mark Delivered

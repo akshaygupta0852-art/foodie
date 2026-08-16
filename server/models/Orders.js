@@ -81,7 +81,7 @@ const orderSchema = new mongoose.Schema(
       },
     },
 
-    address : {
+    address: {
       type: deliveryAddressSchema,
       required: true,
     },
@@ -111,6 +111,7 @@ const orderSchema = new mongoose.Schema(
         "confirmed",
         "out-for-delivery",
         "delivered",
+        "preparing",
         "cancelled",
       ],
       default: "placed",
